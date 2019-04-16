@@ -11,16 +11,11 @@ import {HttpClient} from '@angular/common/http';
 export class DashboardComponent implements OnInit {
 
   REST_URLS: object = {
-    ALL : '/angularjs/my-workspace/server/get_todos.php'
+    ALL : '/angularjs/my-workspace/server/get_todos.php',
+    EDIT: '/angularjs/my-workspace/server/edit_todo.php'
   };
-
   tableHead: string[] = ['Priority', 'Date', 'Name'];
-
-  todos: ToDo[] = [
-    //new ToDo('Sigmatek', new Date(2019, 5, 15, 15, 30), TODO_STATUS_TYPES['LOW']),
-    //new ToDo('Findologic', new Date(2019, 5, 23, 9, 30), TODO_STATUS_TYPES['HIGH']),
-    //new ToDo('Pixelart', new Date(2019, 5, 17, 8, 0), TODO_STATUS_TYPES['HIGH'])
-  ];
+  todos: ToDo[] = [];
 
   constructor(private http: HttpClient) {
 
@@ -30,7 +25,8 @@ export class DashboardComponent implements OnInit {
     this.http.get(this.REST_URLS['ALL']).subscribe((data: Array<object>) => {
       console.log(data);
       data.forEach((todoData) => {
-        this.todos.push(new ToDo(todoData['name'], new Date(todoData['date']*1000), todoData['priority']));
+        todoData['date'] = new Date(todoData['date']*1000);
+        this.todos.push(new ToDo(todoData));
       });
     });
   }
@@ -41,7 +37,9 @@ export class DashboardComponent implements OnInit {
         todo.setName(value);
         break;
       case 'date':
-        todo.setDate(value);
+        let dateParam = value.split("-");
+        console.log(dateParam);
+        todo.setDate(new Date(dateParam[0],dateParam[1],dateParam[2]));
         break;
       case 'priority':
         todo.setPriority(value);
@@ -49,6 +47,9 @@ export class DashboardComponent implements OnInit {
       default:
         throw new Error('property for todo not found: ' + propertyName);
     }
+    this.http.put(this.REST_URLS['EDIT'], todo.toJSON()).subscribe((data: Array<object>) => {
+      console.log(data);
+    });
   }
 
 }

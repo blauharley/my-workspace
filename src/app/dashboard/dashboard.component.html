@@ -12,7 +12,10 @@
       {{todo.getStatusText()}}
     </div>
     <div class="col-4 pt-2">
-      <input class="form-control" (change)="changeToDo(todo, 'date', $event.target.value)" type="date" [ngModel]="todo.getDate() | date:'yyyy-MM-dd'"/>
+      <input class="form-control"
+             type="date"
+             (change)="changeToDo(todo, 'date', $event.target.value)"
+             [ngModel]="todo.getDate() | date:'yyyy-MM-dd'" (ngModelChange)="changeToDo(todo, 'date', $event)"/>
     </div>
     <div class="col-4 pt-2">
       <input class="form-control" (change)="changeToDo(todo, 'name', $event.target.value)" type="text" value="{{todo.getName()}}"/>

@@ -9,7 +9,12 @@ export class ToDoStatusPrioPipe implements PipeTransform {
 
   transform(todos: ToDo[], args?: any): any {
     return todos.sort((a: ToDo, b: ToDo) => {
-      return b.getPriority() - a. getPriority();
+      let res: number = b.getPriority() - a.getPriority();
+      let proEqual: boolean = b.getPriority() === a. getPriority();
+      if(proEqual){
+        res = b.getDate().getTime() - a.getDate().getTime();
+      }
+      return res;
     });
   }
 
