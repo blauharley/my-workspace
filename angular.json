@@ -61,7 +61,6 @@
               ]
             },
             "dev": {
-              "aot": true,
               "i18nFile": "src/messages.xlf",
               "i18nFormat": "xlf",
               "i18nLocale": "de"
@@ -71,7 +70,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "my-workspace:build"
+            "browserTarget": "my-workspace:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {

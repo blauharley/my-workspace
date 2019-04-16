@@ -1,0 +1,6 @@
+{
+  "/angularjs/my-workspace/server": {
+    "target": "http://localhost:80",
+    "secure": false
+  }
+}

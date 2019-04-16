@@ -8,17 +8,21 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NaviComponent } from './navi/navi.component';
 import {FormsModule} from '@angular/forms';
+import { ToDoStatusPrioPipe } from './to-do-status-prio.pipe';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    NaviComponent
+    NaviComponent,
+    ToDoStatusPrioPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [{provide: LOCALE_ID, useValue: 'de' }],
   bootstrap: [AppComponent]

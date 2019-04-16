@@ -1,9 +1,11 @@
+import { ToDoStatus, TODO_STATUS_TYPES} from './to-do-status';
+
 export class ToDo {
     private name: string;
     private date: Date;
-    private priority: string;
+    private priority: number;
 
-    constructor(name: string, date: Date, priority: string) {
+    constructor(name: string, date: Date, priority: number) {
         this.name = name;
         this.date = date;
         this.priority = priority;
@@ -25,11 +27,22 @@ export class ToDo {
         return this;
     }
 
-    getPriority(): string {
+    getPriority(): number {
         return this.priority;
     }
-    setPriority(priority: string): ToDo {
+    setPriority(priority: number): ToDo {
         this.priority = priority;
         return this;
+    }
+
+    getStatusColor(): string {
+        return ToDoStatus.getColor(this.getPriority());
+    }
+    getStatusText(): string {
+        for (const state in TODO_STATUS_TYPES) {
+            if (Number(this.getPriority()) === TODO_STATUS_TYPES[state]) {
+                return state;
+            }
+        }
     }
 }
