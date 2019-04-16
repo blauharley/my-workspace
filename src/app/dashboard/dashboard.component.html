@@ -1,0 +1,24 @@
+<h1 i18n="@@de.hello">Hello</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-12 h2">
+      {{title}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 bg-info pl-2 pb-1 h2" *ngFor="let head of tableHead">
+      {{head}}
+    </div>
+  </div>
+  <div class="row" *ngFor="let todo of todos">
+    <div class="col-4 pt-2">
+      <input class="form-control" (change)="changeToDo(todo, 'priority', $event.target.value)" type="text" value="{{todo.getPriority()}}"/>
+    </div>
+    <div class="col-4 pt-2">
+      <input class="form-control" (change)="changeToDo(todo, 'date', $event.target.value)" type="date" [ngModel]="todo.getDate() | date:'yyyy-MM-dd'"/>
+    </div>
+    <div class="col-4 pt-2">
+      <input class="form-control" (change)="changeToDo(todo, 'name', $event.target.value)" type="text" value="{{todo.getName()}}"/>
+    </div>
+  </div>
+</div>
