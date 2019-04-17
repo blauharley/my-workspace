@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ToDo} from '../to-do';
 import * as $ from "jquery";
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {
   trigger,
   state,
@@ -41,10 +41,15 @@ export class DashboardComponent implements OnInit {
 
   REST_URLS: object = {
     ALL : '/angularjs/my-workspace/server/get_todos.php',
-    EDIT: '/angularjs/my-workspace/server/edit_todo.php'
+    EDIT: '/angularjs/my-workspace/server/edit_todo.php',
+    DELETE: '/angularjs/my-workspace/server/delete_todo.php',
   };
   tableHead: string[] = ['Priority', 'Date', 'Name'];
   todos: ToDo[] = [];
+
+  mouseDownStartPosX: number = null;
+  mouseDownTime: number = null;
+  maxMoveDownTime: number = 1500;
 
   constructor(private http: HttpClient) {}
 
@@ -76,25 +81,34 @@ export class DashboardComponent implements OnInit {
         throw new Error('property for todo not found: ' + propertyName);
     }
     this.http.put(this.REST_URLS['EDIT'], todo.toJSON()).subscribe((data: Array<object>) => {
-      console.log(data);
+
     });
   }
 
-  startPosX: number = null;
-
   onMouseDown(e) {
-    this.startPosX = e.pageX;
+    this.mouseDownStartPosX = e.pageX;
+    this.mouseDownTime = (new Date()).getTime();
   }
 
   onMouseUp(e: MouseEvent, movedTodo: ToDo) {
-    if(this.startPosX > e.pageX){
+    let moveUpTime: number = (new Date()).getTime();
+    if(this.mouseDownStartPosX > e.pageX && (moveUpTime - this.mouseDownTime) <= this.maxMoveDownTime){
       movedTodo.setMoveState('out');
       setTimeout(() => {
         this.todos = this.todos.filter((todo)=>{
           return movedTodo!==todo;
         });
+        this.http
+            .request('delete', this.REST_URLS['DELETE'], { body: movedTodo.toJSON() })
+            .subscribe((data: Array<object>)=>{
+
+        });
       },MoveOutAnimationDelay*1000);
     }
+  }
+
+  onMouseOut(e: MouseEvent){
+    this.mouseDownStartPosX = 0;
   }
 
   private startSetupAnimation(delay: number=0){
