@@ -9,8 +9,12 @@
   </div>
   <div class="row row-animation"
        *ngFor="let todo of todos | toDoStatusPrio"
-       [@moveRow]="todo.getMoveState()">
-    <div class="col-4 pt-2" [ngStyle]="{'background-color': todo.getStatusColor()}">
+       [@moveRowIn]="todo.getMoveState()"
+       [@moveRowOut]="todo.getMoveState()">
+    <div class="col-4 pt-2"
+         (mousedown)="onMouseDown($event)"
+         (mouseup)="onMouseUp($event, todo)"
+         [ngStyle]="{'background-color': todo.getStatusColor()}">
       {{todo.getStatusText()}}
     </div>
     <div class="col-4 pt-2">

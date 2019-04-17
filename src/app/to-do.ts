@@ -16,6 +16,10 @@ export class ToDo {
         this.moveState = 'out';
     }
 
+    getID(): number {
+        return this.id;
+    }
+
     setName(name: string): ToDo {
         this.name = name;
         return this;
