@@ -1,16 +1,19 @@
 import { ToDoStatus, TODO_STATUS_TYPES} from './to-do-status';
 
 export class ToDo {
+
     private id: number;
     private name: string;
     private date: Date;
     private priority: number;
+    private moveState: string;
 
     constructor(data: object) {
         this.id = data['id'] ? Number(data['id']) : -1;
         this.name = data['name'] ? data['name'].toString() : '';
         this.date = data['date'] instanceof Date ? data['date'] : null;
         this.priority = data['priority'] ? Number(data['priority']) : -1;
+        this.moveState = 'out';
     }
 
     setName(name: string): ToDo {
@@ -47,6 +50,16 @@ export class ToDo {
             }
         }
     }
+
+    getMoveState(): string {
+        return this.moveState;
+    }
+
+    setMoveState(value: string): ToDo {
+        this.moveState = value;
+        return this;
+    }
+
     toJSON(): object {
         return {
             id : this.id,

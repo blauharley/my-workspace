@@ -10,6 +10,7 @@ import { NaviComponent } from './navi/navi.component';
 import {FormsModule} from '@angular/forms';
 import { ToDoStatusPrioPipe } from './to-do-status-prio.pipe';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [{provide: LOCALE_ID, useValue: 'de' }],
   bootstrap: [AppComponent]

@@ -7,7 +7,9 @@
       {{head}}
     </div>
   </div>
-  <div class="row" *ngFor="let todo of todos | toDoStatusPrio">
+  <div class="row row-animation"
+       *ngFor="let todo of todos | toDoStatusPrio"
+       [@moveRow]="todo.getMoveState()">
     <div class="col-4 pt-2" [ngStyle]="{'background-color': todo.getStatusColor()}">
       {{todo.getStatusText()}}
     </div>

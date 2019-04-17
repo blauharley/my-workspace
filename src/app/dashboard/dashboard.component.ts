@@ -1,10 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import {ToDo} from '../to-do';
-import { ToDoStatus, TODO_STATUS_TYPES } from '../to-do-status';
+import * as $ from "jquery";
 import {HttpClient} from '@angular/common/http';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 
 @Component({
   selector: 'app-dashboard',
+  animations: [
+    trigger('moveRow', [
+      state('out', style({
+
+      })),
+      state('in', style({
+        left: '0px'
+      })),
+      transition('out => in', [
+        animate('3s')
+      ]),
+      transition('in => out', [
+        animate('0.5s')
+      ]),
+    ]),
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
@@ -16,6 +39,7 @@ export class DashboardComponent implements OnInit {
   };
   tableHead: string[] = ['Priority', 'Date', 'Name'];
   todos: ToDo[] = [];
+  animIndexCounter: number = 0;
 
   constructor(private http: HttpClient) {
 
@@ -23,10 +47,12 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.http.get(this.REST_URLS['ALL']).subscribe((data: Array<object>) => {
-      console.log(data);
       data.forEach((todoData) => {
         todoData['date'] = new Date(todoData['date']*1000);
         this.todos.push(new ToDo(todoData));
+        setTimeout(() => {
+          this.startSetupAnimation(500);
+        }, 1000);
       });
     });
   }
@@ -38,7 +64,6 @@ export class DashboardComponent implements OnInit {
         break;
       case 'date':
         let dateParam = value.split("-");
-        console.log(dateParam);
         todo.setDate(new Date(dateParam[0],dateParam[1],dateParam[2]));
         break;
       case 'priority':
@@ -50,6 +75,27 @@ export class DashboardComponent implements OnInit {
     this.http.put(this.REST_URLS['EDIT'], todo.toJSON()).subscribe((data: Array<object>) => {
       console.log(data);
     });
+  }
+
+  private startSetupAnimation(delay: number=0){
+    if(this.todos.length){
+      let rows = document.getElementsByClassName('row-animation');
+      for(let index=0; index < rows.length; index++){
+        let row = rows[index];
+        $(row).css('left', (-1500-index*50)+'px');
+      }
+      setTimeout(()=>{
+        this.todos.forEach((todo: ToDo)=>{
+          this.applyMoveInAnimationOntoRow(todo);
+        });
+      },delay);
+    }
+  }
+
+  private applyMoveInAnimationOntoRow(todo: ToDo){
+    if(todo){
+      todo.setMoveState("in");
+    }
   }
 
 }
