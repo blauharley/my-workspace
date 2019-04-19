@@ -11,13 +11,15 @@ import {FormsModule} from '@angular/forms';
 import { ToDoStatusPrioPipe } from './to-do-status-prio.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToDoComponent } from './Modals/to-do/to-do.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     NaviComponent,
-    ToDoStatusPrioPipe
+    ToDoStatusPrioPipe,
+    ToDoComponent
   ],
   imports: [
     BrowserModule,

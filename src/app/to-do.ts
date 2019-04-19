@@ -8,11 +8,11 @@ export class ToDo {
     private priority: number;
     private moveState: string;
 
-    constructor(data: object) {
-        this.id = data['id'] ? Number(data['id']) : -1;
-        this.name = data['name'] ? data['name'].toString() : '';
-        this.date = data['date'] instanceof Date ? data['date'] : null;
-        this.priority = data['priority'] ? Number(data['priority']) : -1;
+    constructor(data: object=null) {
+        this.id = data && data['id'] ? Number(data['id']) : -1;
+        this.name = data && data['name'] ? data['name'].toString() : '';
+        this.date = data && data['date'] instanceof Date ? data['date'] : null;
+        this.priority = data && data['priority'] ? Number(data['priority']) : -1;
         this.moveState = 'out';
     }
 
@@ -64,6 +64,9 @@ export class ToDo {
         return this;
     }
 
+    /**
+     * @return { id: string, name: string, date: number, priority: string }
+     */
     toJSON(): object {
         return {
             id : this.id,

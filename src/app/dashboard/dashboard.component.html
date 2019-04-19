@@ -1,31 +1,41 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 h2" i18n="@@de.dashboard.title">Your Table</div>
+    <div class="col-8 h2" i18n="@@de.dashboard.title">Your Table</div>
+    <div class="col-4">
+      <button type="button"
+              class="btn btn-outline-primary"
+              (click)="addToDo()"
+              [attr.data-target]="'#'+addModalId"
+              [ngClass]="{active: addToDoModeOn}"
+              data-toggle="modal">Add</button>
+      <span class="mr-3 ml-3"></span>
+      <button type="button" class="btn btn-outline-danger" (click)="toggleDeleteMode()" [ngClass]="{active: deleteModeOn}">Delete</button>
+    </div>
   </div>
-  <div class="row">
-    <div class="col-4 bg-info pl-2 pb-1 h2" *ngFor="let head of tableHead">
-      {{head}}
+  <div class="row border-dark border-top border-left border-right">
+    <div class="col-{{headObj.col}} pl-2 pb-1 h2 text-center text-justify" *ngFor="let headObj of tableHead">
+      <span class="align-middle">{{headObj.label}}</span>
     </div>
   </div>
   <div class="row row-animation"
        *ngFor="let todo of todos | toDoStatusPrio"
        [@moveRowIn]="todo.getMoveState()"
-       [@moveRowOut]="todo.getMoveState()">
-    <div class="col-4 pt-2"
-         (mousedown)="onMouseDown($event)"
-         (mouseup)="onMouseUp($event, todo)"
-         (mouseout)="onMouseOut($event)"
-         [ngStyle]="{'background-color': todo.getStatusColor()}">
-      {{todo.getStatusText()}}
-    </div>
-    <div class="col-4 pt-2">
+       [@moveRowOut]="todo.getMoveState()"
+       [ngStyle]="{'background-color': todo.getStatusColor()}">
+    <div class="col-4 pt-2 pb-2">
       <input class="form-control"
              type="date"
-             (change)="changeToDo(todo, 'date', $event.target.value)"
              [ngModel]="todo.getDate() | date:'yyyy-MM-dd'" (ngModelChange)="changeToDo(todo, 'date', $event)"/>
     </div>
-    <div class="col-4 pt-2">
+    <div class="col-8 pt-2 pb-2">
       <input class="form-control" (change)="changeToDo(todo, 'name', $event.target.value)" type="text" value="{{todo.getName()}}"/>
     </div>
+    <div class="removeRowTrigger"
+         (mousedown)="onMouseDown($event)"
+         (mouseup)="onMouseUp($event, todo)"
+         (mouseout)="onMouseOut($event)"></div>
   </div>
 </div>
+
+<!-- Modal -->
+<app-to-do [name]="addModalId" [newToDo]="newToDo" (close)="onCloseModal($event)"></app-to-do>

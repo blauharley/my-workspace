@@ -9,8 +9,11 @@ import {
   animate,
   transition
 } from '@angular/animations';
+import {assertNumber} from '@angular/core/src/render3/assert';
 
-let MoveOutAnimationDelay = 0.5;
+let moveInAnimationDelay = 1.5;
+let moveOutAnimationDelay = 0.5;
+let maxRowOffsetLeft: number = -1500;
 
 @Component({
   selector: 'app-dashboard',
@@ -21,16 +24,16 @@ let MoveOutAnimationDelay = 0.5;
         left: '0px'
       })),
       transition('out => in', [
-        animate('3s')
+        animate(moveInAnimationDelay+'s')
       ])
     ]),
     trigger('moveRowOut', [
       state('out', style({
-        left: '-1500px'
+        left: maxRowOffsetLeft+'px'
       })),
       state('in', style({})),
       transition('in => out', [
-        animate(MoveOutAnimationDelay+'s')
+        animate(moveOutAnimationDelay+'s')
       ])
     ])
   ],
@@ -39,17 +42,25 @@ let MoveOutAnimationDelay = 0.5;
 })
 export class DashboardComponent implements OnInit {
 
+  REST_BASE_URL: string = '/angularjs/my-workspace/server/%s.php';
+
   REST_URLS: object = {
-    ALL : '/angularjs/my-workspace/server/get_todos.php',
-    EDIT: '/angularjs/my-workspace/server/edit_todo.php',
-    DELETE: '/angularjs/my-workspace/server/delete_todo.php',
+    ALL : this.REST_BASE_URL.replace('%s','get_todos'),
+    ADD: this.REST_BASE_URL.replace('%s','add_todo'),
+    EDIT: this.REST_BASE_URL.replace('%s','edit_todo'),
+    DELETE: this.REST_BASE_URL.replace('%s','delete_todo')
   };
-  tableHead: string[] = ['Priority', 'Date', 'Name'];
+  tableHead: Array<object> = [{label:'Date', col:4}, {label:'Name', col:8}];
+  newToDo: ToDo = new ToDo({date: new Date()});
   todos: ToDo[] = [];
 
   mouseDownStartPosX: number = null;
   mouseDownTime: number = null;
   maxMoveDownTime: number = 1500;
+
+  addModalId: string = 'addToDo';
+  addToDoModeOn: boolean = false;
+  deleteModeOn: boolean = false;
 
   constructor(private http: HttpClient) {}
 
@@ -72,7 +83,7 @@ export class DashboardComponent implements OnInit {
         break;
       case 'date':
         let dateParam = value.split("-");
-        todo.setDate(new Date(dateParam[0],dateParam[1],dateParam[2]));
+        todo.setDate(new Date(dateParam[0],(+dateParam[1])-1,dateParam[2]));
         break;
       case 'priority':
         todo.setPriority(value);
@@ -103,7 +114,7 @@ export class DashboardComponent implements OnInit {
             .subscribe((data: Array<object>)=>{
 
         });
-      },MoveOutAnimationDelay*1000);
+      },moveOutAnimationDelay*1000);
     }
   }
 
@@ -111,12 +122,62 @@ export class DashboardComponent implements OnInit {
     this.mouseDownStartPosX = 0;
   }
 
+  onCloseModal(e: any){
+    console.log(e);
+    if(e.save) {
+      let params = '';
+      let json = this.newToDo.toJSON();
+      for(let paramName in json){
+        if(params.length){
+          params += '&';
+        }
+        params += paramName + '=' + json[paramName];
+      }
+      this.http.post(this.REST_URLS['ADD'], params, {headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}}).subscribe((data: any) => {
+        if(data.success){
+          this.newToDo = new ToDo({
+            id: data.id,
+            name: this.newToDo.getName(),
+            date: this.newToDo.getDate(),
+            priority: this.newToDo.getPriority()
+          });
+          this.todos.push(this.newToDo);
+
+          setTimeout(()=>{
+            this.applyMoveInAnimationOntoRow(this.newToDo);
+            setTimeout(()=>{
+              this.newToDo = new ToDo();
+            },moveInAnimationDelay*1000)
+          }, 0);
+        }
+      });
+    }
+    this.addToDoModeOn = false;
+  }
+
+  addToDo(){
+    this.addToDoModeOn = true;
+    this.deleteModeOn = false;
+  }
+
+  toggleDeleteMode(){
+      this.deleteModeOn = !this.deleteModeOn;
+      this.addToDoModeOn = false;
+      if(this.deleteModeOn){
+        $('.removeRowTrigger').show();
+      }
+      else{
+        $('.removeRowTrigger').hide();
+      }
+  }
+
   private startSetupAnimation(delay: number=0){
     if(this.todos.length){
       let rows = document.getElementsByClassName('row-animation');
       for(let index=0; index < rows.length; index++){
         let row = rows[index];
-        $(row).css('left', (-1500-index*50)+'px');
+        let itemOffset: number = 100;
+        $(row).css('left', (maxRowOffsetLeft-index*itemOffset)+'px');
       }
       setTimeout(()=>{
         this.todos.forEach((todo: ToDo)=>{
