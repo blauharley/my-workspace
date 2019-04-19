@@ -11,7 +11,7 @@ export class ToDo {
     constructor(data: object=null) {
         this.id = data && data['id'] ? Number(data['id']) : -1;
         this.name = data && data['name'] ? data['name'].toString() : '';
-        this.date = data && data['date'] instanceof Date ? data['date'] : null;
+        this.date = data && data['date'] instanceof Date ? data['date'] : new Date();
         this.priority = data && data['priority'] ? Number(data['priority']) : -1;
         this.moveState = 'out';
     }

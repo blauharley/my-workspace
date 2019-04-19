@@ -18,6 +18,7 @@
     </div>
   </div>
   <div class="row row-animation"
+       [ngClass]="{shake: (deleteModeOn && todo.getMoveState() === 'in') }"
        *ngFor="let todo of todos | toDoStatusPrio"
        [@moveRowIn]="todo.getMoveState()"
        [@moveRowOut]="todo.getMoveState()"
