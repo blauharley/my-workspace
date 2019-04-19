@@ -12,7 +12,7 @@ export class ToDo {
         this.id = data && data['id'] ? Number(data['id']) : -1;
         this.name = data && data['name'] ? data['name'].toString() : '';
         this.date = data && data['date'] instanceof Date ? data['date'] : new Date();
-        this.priority = data && data['priority'] ? Number(data['priority']) : -1;
+        this.priority = data && [1,0,-1].includes(+data['priority']) ? +data['priority'] : -1;
         this.moveState = 'out';
     }
 
