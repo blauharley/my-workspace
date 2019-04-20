@@ -62,6 +62,8 @@ export class DashboardComponent implements OnInit {
   addToDoModeOn: boolean = false;
   deleteModeOn: boolean = false;
 
+  naviSearchText: string = '';
+
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
@@ -123,7 +125,6 @@ export class DashboardComponent implements OnInit {
   }
 
   onCloseModal(e: any){
-    console.log(e);
     if(e.save) {
       let params = '';
       let json = this.newToDo.toJSON();

@@ -12,6 +12,7 @@ import { ToDoStatusPrioPipe } from './to-do-status-prio.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToDoComponent } from './Modals/to-do/to-do.component';
+import { ToDoSearchPipe } from './to-do-search.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ToDoComponent } from './Modals/to-do/to-do.component';
     DashboardComponent,
     NaviComponent,
     ToDoStatusPrioPipe,
-    ToDoComponent
+    ToDoComponent,
+    ToDoSearchPipe
   ],
   imports: [
     BrowserModule,

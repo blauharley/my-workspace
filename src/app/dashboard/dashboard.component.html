@@ -1,15 +1,20 @@
+<app-navi [(search)]="naviSearchText">
+  <button type="button"
+          class="btn btn-outline-primary"
+          (click)="addToDo()"
+          [attr.data-target]="'#'+addModalId"
+          [ngClass]="{active: addToDoModeOn}"
+          data-toggle="modal">Add</button>
+  <span class="mr-3 ml-3"></span>
+  <button type="button" class="btn btn-outline-danger" (click)="toggleDeleteMode()" [ngClass]="{active: deleteModeOn}">Delete</button>
+  <span class="ml-3"></span>
+</app-navi>
+
 <div class="container">
   <div class="row">
     <div class="col-8 h2" i18n="@@de.dashboard.title">Your Table</div>
     <div class="col-4">
-      <button type="button"
-              class="btn btn-outline-primary"
-              (click)="addToDo()"
-              [attr.data-target]="'#'+addModalId"
-              [ngClass]="{active: addToDoModeOn}"
-              data-toggle="modal">Add</button>
-      <span class="mr-3 ml-3"></span>
-      <button type="button" class="btn btn-outline-danger" (click)="toggleDeleteMode()" [ngClass]="{active: deleteModeOn}">Delete</button>
+
     </div>
   </div>
   <div class="row border-dark border-top border-left border-right">
@@ -19,7 +24,7 @@
   </div>
   <div class="row row-animation"
        [ngClass]="{shake: (deleteModeOn && todo.getMoveState() === 'in') }"
-       *ngFor="let todo of todos | toDoStatusPrio"
+       *ngFor="let todo of todos | toDoSearch: naviSearchText | toDoStatusPrio"
        [@moveRowIn]="todo.getMoveState()"
        [@moveRowOut]="todo.getMoveState()"
        [ngStyle]="{'background-color': todo.getStatusColor()}">
