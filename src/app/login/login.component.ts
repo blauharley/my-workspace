@@ -35,6 +35,12 @@ export class LoginComponent implements OnInit {
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    setTimeout(()=>{
+      this.loginForm.controls.username.setErrors(null);
+      this.loginForm.controls.password.setErrors(null);
+    },0);
+
   }
 
   // convenience getter for easy access to form fields

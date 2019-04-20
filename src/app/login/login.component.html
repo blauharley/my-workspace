@@ -10,12 +10,12 @@
     <!-- Login Form -->
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <input type="text" name="username" formControlName="username" placeholder="Username" class="fadeIn third" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-      <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-        <div *ngIf="f.username.errors.required">Username is required</div>
+      <div [ngStyle]="{display:submitted && f.username.errors?'block':'none'}" class="invalid-feedback">
+        <div *ngIf="f.username.errors">Username is required</div>
       </div>
       <input type="password" name="password" formControlName="password" placeholder="password" class="fadeIn third" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-        <div *ngIf="f.password.errors.required">Password is required</div>
+      <div [ngStyle]="{display:submitted && f.password.errors?'block':'none'}" class="invalid-feedback">
+        <div *ngIf="f.password.errors">Password is required</div>
       </div>
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
