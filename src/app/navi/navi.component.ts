@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Location} from '@angular/common';
+import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-navi',
@@ -12,7 +13,7 @@ export class NaviComponent implements OnInit {
 
   activePath: string;
 
-  constructor(private location: Location) {
+  constructor(private location: Location, private appComponent: AppComponent) {
 
   }
 

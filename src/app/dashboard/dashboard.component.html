@@ -10,18 +10,19 @@
   <span class="ml-3"></span>
 </app-navi>
 
-<div class="container">
+<div class="container row-container">
   <div class="row">
     <div class="col-8 h2" i18n="@@dashboard.title">Your Table</div>
     <div class="col-4">
 
     </div>
   </div>
-  <div class="row border-dark border-top border-left border-right">
+  <!--
+  <div class="row border-dark">
     <div class="col-{{headObj.col}} pl-2 pb-1 h2 text-center text-justify" *ngFor="let headObj of tableHead">
       <span class="align-middle">{{headObj.label}}</span>
     </div>
-  </div>
+  </div>-->
   <div class="row row-animation"
        [ngClass]="{shake: (deleteModeOn && todo.getMoveState() === 'in') }"
        *ngFor="let todo of todos | toDoSearch: naviSearchText | toDoStatusPrio"
