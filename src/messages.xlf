@@ -2,9 +2,13 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="de" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="de.dashboard.title" datatype="html">
+      <trans-unit id="dashboard.title" datatype="html">
         <source>Your Table</source>
-        <target>Ihre Aufgabenliste</target>
+        <target>Ihre Aufgabentabelle</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
       </trans-unit>
     </body>
   </file>
