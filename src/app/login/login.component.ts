@@ -25,10 +25,11 @@ export class LoginComponent implements OnInit {
               private authenticationService: AuthenticationServiceService) { }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
+    let fields = {
       username: ['', Validators.required],
       password: ['', Validators.required]
-    });
+    };
+    this.loginForm = this.formBuilder.group(fields);
 
     // reset login status
     this.authenticationService.logout();
@@ -37,8 +38,9 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
     setTimeout(()=>{
-      this.loginForm.controls.username.setErrors(null);
-      this.loginForm.controls.password.setErrors(null);
+      for(let field in fields){
+        this.loginForm.controls[field].setErrors(null);
+      }
     },0);
 
   }
