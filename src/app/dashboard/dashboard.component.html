@@ -1,21 +1,19 @@
 <app-navi [(search)]="naviSearchText">
   <button type="button"
-          class="btn btn-outline-primary"
+          class="btn btn-outline-primary dashboard-navi-button"
           (click)="addToDo()"
           [attr.data-target]="'#'+addModalId"
           [ngClass]="{active: addToDoModeOn}"
           data-toggle="modal">Add</button>
   <span class="mr-3 ml-3"></span>
-  <button type="button" class="btn btn-outline-danger" (click)="toggleDeleteMode()" [ngClass]="{active: deleteModeOn}">Delete</button>
-  <span class="ml-3"></span>
+  <button type="button" class="btn btn-outline-danger dashboard-navi-button" (click)="toggleDeleteMode()" [ngClass]="{active: deleteModeOn}">Delete</button>
+  <span class="ml-3 mr-3"></span>
 </app-navi>
 
-<div class="container row-container">
-  <div class="row">
-    <div class="col-8 h2" i18n="@@dashboard.title">Your Table</div>
-    <div class="col-4">
-
-    </div>
+<div class="container row-container" [ngClass]="{'start-animation-finish':moveInAnimationFinish}">
+  <div class="row first-row-animation bg-light"
+       [ngClass]="{'start-animation-finish': !moveInAnimationFinish}">
+    <div class="col-12 text-center h2" i18n="@@dashboard.title">Your Table</div>
   </div>
   <!--
   <div class="row border-dark">
@@ -23,13 +21,13 @@
       <span class="align-middle">{{headObj.label}}</span>
     </div>
   </div>-->
-  <div class="row row-animation"
-       [ngClass]="{shake: (deleteModeOn && todo.getMoveState() === 'in') }"
+  <div class="row row-animation bg-light"
+       [ngClass]="{shake: (deleteModeOn && todo.getMoveState() === 'in'), 'row-start-animation': !moveInAnimationFinish }"
        *ngFor="let todo of todos | toDoSearch: naviSearchText | toDoStatusPrio"
        [@moveRowIn]="todo.getMoveState()"
-       [@moveRowOut]="todo.getMoveState()"
-       [ngStyle]="{'background-color': todo.getStatusColor()}">
-    <div class="col-4 pt-2 pb-2">
+       [@moveRowOut]="todo.getMoveState()">
+    <div class="col-1" [ngStyle]="{'background-color': todo.getStatusColor()}"></div>
+    <div class="col-3 pt-2 pb-2">
       <input class="form-control"
              type="date"
              [ngModel]="todo.getDate() | date:'yyyy-MM-dd'" (ngModelChange)="changeToDo(todo, 'date', $event)"/>

@@ -1,24 +1,28 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light dashboard-navi">
+  <span class="navbar-brand">{{appComponent.currentUser.username}}</span>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
   <div class="collapse navbar-collapse" id="navbarContent">
     <ul class="navbar-nav mr-auto">
+      <!--
       <li class="nav-item active" [ngClass]="{'active':activePath==='dashboard'}">
         <a class="nav-link" routerLink="/dashboard">Dashboard <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item ml-2">
+      </li>-->
+      <li class="nav-item ml-2 dashboard-navi-logout-li">
         <button type="button"
-                class="btn btn-outline-dark"
+                class="btn btn-outline-dark dashboard-navi-button"
                 (click)="appComponent.logout()"
                 *ngIf="appComponent.currentUser && appComponent.currentUser.token.length">Logout</button>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <ng-content></ng-content>
-      <input class="form-control mr-sm-2" type="text" name="searchText" [ngModel]="search" (ngModelChange)="emitText($event)" placeholder="Search" aria-label="Search"/>
+      <input class="form-control mr-sm-2 dashboard-navi-search-field"
+             type="text"
+             name="searchText" [ngModel]="search" (ngModelChange)="emitText($event)"
+             placeholder="Search"
+             aria-label="Search"/>
     </form>
   </div>
 </nav>

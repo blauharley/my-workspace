@@ -58,6 +58,8 @@ export class DashboardComponent implements OnInit {
   mouseDownTime: number = null;
   maxMoveDownTime: number = 1500;
 
+  moveInAnimationFinish: boolean = false;
+
   addModalId: string = 'addToDo';
   addToDoModeOn: boolean = false;
   deleteModeOn: boolean = false;
@@ -184,6 +186,9 @@ export class DashboardComponent implements OnInit {
         this.todos.forEach((todo: ToDo)=>{
           this.applyMoveInAnimationOntoRow(todo);
         });
+        setTimeout(()=>{
+          this.moveInAnimationFinish = true;
+        },moveInAnimationDelay*1000);
       },delay);
     }
   }
