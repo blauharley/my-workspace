@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Location} from '@angular/common';
-import {AppComponent} from '../app.component';
+import {AppComponent} from '../../app.component';
 
 @Component({
   selector: 'app-navi',

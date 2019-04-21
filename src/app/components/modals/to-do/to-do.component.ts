@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ToDo} from '../../dataobjects/to-do';
+import {ToDo} from '../../../dataobjects/to-do';
 declare var $ :any;
 
 @Component({
