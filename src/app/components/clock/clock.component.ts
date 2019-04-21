@@ -10,16 +10,19 @@ import Timer = NodeJS.Timer;
 export class ClockComponent implements OnInit, OnDestroy {
 
   private timeInterval: Timer=null;
-  private time: Observable<Date> = new Observable(observer => {
-    this.timeInterval = setInterval(() => {
-      console.log('time');
-      observer.next(new Date())
-    }, 1000);
-  });
+  private time: any = null;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    new Observable<Date>(observer => {
+      this.timeInterval = setInterval(() => {
+        observer.next(new Date());
+      }, 1000);
+    }).subscribe((date)=>{
+      this.time = date;
+    });
+  }
 
   ngOnDestroy(){
     clearInterval(this.timeInterval);

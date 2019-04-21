@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
-import {AsyncPipe, CommonModule, registerLocaleData} from '@angular/common';
+import {registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -35,7 +35,6 @@ import { ClockComponent } from './components/clock/clock.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    CommonModule,
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
