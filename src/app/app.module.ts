@@ -16,6 +16,7 @@ import { ToDoSearchPipe } from './pipes/to-do-search.pipe';
 import { LoginComponent } from './components/login/login.component';
 import {ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 import {LocalStorageModule} from 'angular-2-local-storage';
+import { InfoComponent } from './components/modals/info/info.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {LocalStorageModule} from 'angular-2-local-storage';
     ToDoStatusPrioPipe,
     ToDoComponent,
     ToDoSearchPipe,
-    LoginComponent
+    LoginComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +37,7 @@ import {LocalStorageModule} from 'angular-2-local-storage';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     LocalStorageModule.forRoot({
-      prefix: 'my-app',
+      prefix: 'my-workspace',
       storageType: 'localStorage'
     })
   ],

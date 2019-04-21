@@ -30,7 +30,6 @@ export class AuthenticationServiceService {
         {headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}})
         .pipe(map(resp => {
           let user = new User();
-          console.log(resp);
           // login successful if there's a jwt token in the response
           if (resp.success && resp.token) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -42,6 +41,9 @@ export class AuthenticationServiceService {
             user.username = username;
             user.token = resp.token;
             this.currentUserSubject.next(user);
+          }
+          else{
+            throw new Error('auth failed');
           }
           return user;
         }));

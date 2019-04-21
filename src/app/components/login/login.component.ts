@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationServiceService} from '../../services/authentication-service.service';
 import {first} from 'rxjs/operators';
+declare var $ :any;
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,10 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
+
+  infoModalTitle: string = 'Authentication';
+  infoModalName: string = 'authFailModal';
+  infoModalMessage: string = 'Authentication failed...try again';
 
   constructor(private localStorageService:LocalStorageService,
               private formBuilder: FormBuilder,
@@ -62,10 +67,10 @@ export class LoginComponent implements OnInit {
         .pipe(first())
         .subscribe(
             data => {
-              console.log(data);
               this.router.navigate([this.returnUrl]);
             },
             error => {
+              $('#'+this.infoModalName).modal('show');
               this.error = error;
               this.loading = false;
             });
