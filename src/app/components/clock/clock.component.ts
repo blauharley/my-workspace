@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import Timer = NodeJS.Timer;
 
 @Component({
   selector: 'app-clock',
@@ -9,7 +8,7 @@ import Timer = NodeJS.Timer;
 })
 export class ClockComponent implements OnInit, OnDestroy {
 
-  private timeInterval: Timer=null;
+  private timeInterval: any=null;
   private time: any = null;
 
   constructor() {}
