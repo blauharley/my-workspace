@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ToDo} from '../to-do';
+import {ToDo} from '../dataobjects/to-do';
 import * as $ from "jquery";
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {

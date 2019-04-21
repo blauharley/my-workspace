@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {ToDo} from './to-do';
+import {ToDo} from '../dataobjects/to-do';
 
 @Pipe({
   name: 'toDoSearch'
