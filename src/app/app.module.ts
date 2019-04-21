@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
+import {AsyncPipe, CommonModule, registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +17,7 @@ import { LoginComponent } from './components/login/login.component';
 import {ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 import {LocalStorageModule} from 'angular-2-local-storage';
 import { InfoComponent } from './components/modals/info/info.component';
+import { ClockComponent } from './components/clock/clock.component';
 
 @NgModule({
   declarations: [
@@ -27,12 +28,14 @@ import { InfoComponent } from './components/modals/info/info.component';
     ToDoComponent,
     ToDoSearchPipe,
     LoginComponent,
-    InfoComponent
+    InfoComponent,
+    ClockComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    CommonModule,
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
