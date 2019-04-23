@@ -13,8 +13,8 @@ export class ShopComponent implements OnInit {
   addModalId: string = 'addRegEx';
   naviSearchText: string = '';
   regexes: MyRegEx[] = [
-      new MyRegEx('Headproduct-Search', '\\d{1,3}[-]\\d{1,3}'), // 123-456 or 678-000
-      new MyRegEx('Subproduct-Search', '\\d{1,3}[-]\\d{1,3}[/]\\w{1,3}') // 123-456/a or 123-456/abc
+      new MyRegEx('Headproduct-Search', {pure: '\\d{1,3}[-]\\d{1,3}', searchable: 'NNN-NNN'}), // 123-456 or 678-000
+      new MyRegEx('Subproduct-Search', {pure: '\\d{1,3}[-]\\d{1,3}[/]\\w{1,3}', searchable: 'NNN-NNN/LLL'}) // 123-456/a or 123-456/abc
   ];
 
   constructor(private regExpService: RegExTranslatorService) { }
@@ -22,13 +22,8 @@ export class ShopComponent implements OnInit {
   ngOnInit() {
   }
 
-  translatedSearchTerm(searchTerm,addWildcard){
-    let translatedSearchTerm = this.regExpService.translateToHumanExp(searchTerm);
-    translatedSearchTerm = this.regExpService.translateToMaschineExp(translatedSearchTerm);
-    if(addWildcard){
-      translatedSearchTerm = translatedSearchTerm.slice(0, translatedSearchTerm.length-2);
-    }
-    return translatedSearchTerm;
+  translatedSearchTerm(searchTerm){
+    return this.regExpService.translateToHumanExp(searchTerm);
   }
 
   addRegExp(){

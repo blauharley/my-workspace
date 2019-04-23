@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {MyRegEx} from '../dataobjects/MyRegEx';
-import {RegExTranslatorService} from '../services/reg-ex-translator.service';
 
 @Pipe({
   name: 'regExpSearch'
@@ -12,8 +11,7 @@ export class RegExpSearchPipe implements PipeTransform {
       return regexes;
     }
     return regexes.filter((regex: MyRegEx)=>{
-      console.log(searchTerm,regex.value);
-      return regex.value && regex.value.indexOf(searchTerm)===0;
+      return regex.value && regex.value.searchable.indexOf(searchTerm)===0;
     });
   }
 

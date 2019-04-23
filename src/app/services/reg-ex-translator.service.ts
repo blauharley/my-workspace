@@ -62,4 +62,26 @@ export class RegExTranslatorService {
     return result;
   }
 
+  /*
+    todo
+   */
+  getHumExpCombinations(userString: string): Array<string>{
+    let result: Array<string> =  [];
+    let number: Array<string> = userString.match(/d[{]\d+[,](\d+)[}]/);
+    let letter: Array<string> = userString.match(/w[{]\d+[,](\w+)[}]/);
+    let placeholders = userString.replace(number[0],'number').replace(letter[0],'letter');
+    let maxNumber: number = +number[1];
+    let maxLetter: number = +letter[1];
+    for(let numberIndex=0; numberIndex < maxNumber; numberIndex++){
+      for(let letterIndex=0; letterIndex < maxLetter; letterIndex++){
+        result.push(
+            placeholders
+                .replace('number',(new Array(numberIndex+1)).fill('N').join(''))
+                .replace('letter',(new Array(letterIndex+1)).fill('L').join(''))
+        )
+      }
+    }
+    return result;
+  }
+
 }

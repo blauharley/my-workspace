@@ -30,7 +30,7 @@ export class RegexComponent implements OnInit {
   closeModal(saveToDo: boolean=false){
     $('#'+this.name).modal('hide');
     if(saveToDo){
-      this.currentRegEx.value = this.regexpService.translateToMaschineExp(this.currentRegEx.value);
+      this.currentRegEx.value.pure = this.regexpService.translateToMaschineExp(this.currentRegEx.value.searchable);
     }
     let clone: MyRegEx = Object.assign( Object.create( Object.getPrototypeOf(this.currentRegEx)), this.currentRegEx);
     this.close.emit({save: saveToDo, data: clone});

@@ -12,11 +12,11 @@
     <div class="col-12 text-center h2" i18n="@@dashboard.title">Your RegEx-List</div>
   </div>
   <div class="row row-animation bg-light"
-       *ngFor="let regex of regexes | regExpSearch: translatedSearchTerm(naviSearchText, true)">
+       *ngFor="let regex of regexes | regExpSearch: translatedSearchTerm(naviSearchText)">
     <div class="col-6">
       {{regex.name}}
     </div>
-    <div class="col-6" [innerHTML]="regex.value|highlighter:translatedSearchTerm(naviSearchText, false)"></div>
+    <div class="col-6" [innerHTML]="regex.value|highlighter:translatedSearchTerm(naviSearchText)"></div>
   </div>
 </div>
 
