@@ -1,0 +1,51 @@
+<div class="modal fade"
+     [attr.id]="name"
+     tabindex="-1" role="dialog"
+     [attr.aria-label]="name"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add new RegExp</h5>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          Use these expressions:
+          <ul>
+            <li>Letters => L</li>
+            <li>Numbers => N</li>
+            <li>Slash => /</li>
+            <li>Backslash => \</li>
+            <li>Comma => -</li>
+          </ul>
+          Example: LNNNNN => A00001
+        </div>
+        <label for="regExpName">Name</label>
+        <input class="form-control"
+               name="regExpName"
+               id="regExpName"
+               type="text"
+               [ngModel]="currentRegEx.name"
+               (ngModelChange)="currentRegEx.name = $event"/>
+        <label for="regExValue">Pattern</label>
+        <input class="form-control"
+               type="text"
+               name="regExValue"
+               id="regExValue"
+               [(ngModel)]="currentRegEx.value"
+               pattern="^[LN\/]+$"
+               minlength="5"/>
+        <div [ngStyle]="{display:currentRegEx.value && currentRegEx.value.invalid?'block':'none'}" class="invalid-feedback">
+          <div *ngIf="currentRegEx.value && currentRegEx.value.invalid">Pattern does allowed</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="closeModal(true)">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

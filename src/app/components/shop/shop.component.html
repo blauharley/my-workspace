@@ -1,0 +1,24 @@
+<app-navi [(search)]="naviSearchText">
+  <button type="button"
+          class="btn btn-outline-primary dashboard-navi-button"
+          (click)="addRegExp()"
+          [attr.data-target]="'#'+addModalId"
+          [ngClass]="{active: addRegExModeOn}"
+          data-toggle="modal">Add RegEx</button>
+</app-navi>
+
+<div class="container row-container">
+  <div class="row first-row-animation bg-light">
+    <div class="col-12 text-center h2" i18n="@@dashboard.title">Your RegEx-List</div>
+  </div>
+  <div class="row row-animation bg-light"
+       *ngFor="let regex of regexes | regExpSearch: translatedSearchTerm(naviSearchText, true)">
+    <div class="col-6">
+      {{regex.name}}
+    </div>
+    <div class="col-6" [innerHTML]="regex.value|highlighter:translatedSearchTerm(naviSearchText, false)"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<app-regex [name]="addModalId" (close)="onCloseModal($event)"></app-regex>

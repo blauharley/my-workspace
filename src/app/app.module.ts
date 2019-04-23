@@ -18,6 +18,10 @@ import {ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 import {LocalStorageModule} from 'angular-2-local-storage';
 import { InfoComponent } from './components/modals/info/info.component';
 import { ClockComponent } from './components/clock/clock.component';
+import { ShopComponent } from './components/shop/shop.component';
+import { RegexComponent } from './components/modals/regex/regex.component';
+import { RegExpSearchPipe } from './pipes/reg-exp-search.pipe';
+import { HighlighterPipe } from './pipes/highlighter.pipe';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,11 @@ import { ClockComponent } from './components/clock/clock.component';
     ToDoSearchPipe,
     LoginComponent,
     InfoComponent,
-    ClockComponent
+    ClockComponent,
+    ShopComponent,
+    RegexComponent,
+    RegExpSearchPipe,
+    HighlighterPipe
   ],
   imports: [
     BrowserModule,
