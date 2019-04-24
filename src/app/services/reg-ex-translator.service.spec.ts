@@ -76,4 +76,25 @@ describe('RegExTranslatorService', () => {
       'LLL-LLL'
     ]);
   });
+  it('should show 3x3 letter/letter-combinations', () => {
+    const service: RegExTranslatorService = new RegExTranslatorService();
+    let testRegexp: string = '\\w{1,3}[-]\\w{1,3}[/]\\w{1,3}';
+    console.log(service.getHumanExpCombinations(testRegexp));
+    expect(service.getHumanExpCombinations(testRegexp)).toEqual([
+      'L-L-L',
+      'LL-L-L',
+      'LLL-L-L',
+      'L-LL-L',
+      'L-LLL-L',
+      'L-L-LL',
+      'L-L-LLL',
+      'LLL-LLL-LLL',
+      'LL-LLL-LLL',
+      'L-LLL-LLL',
+      'L-LL-LLL',
+      'L-L-LLL',
+      'L-L-LL',
+      'LL-L-L',
+    ]);
+  });
 });

@@ -63,17 +63,9 @@ export class RegExTranslatorService {
   }
 
   getHumanExpCombinations(userString: string): Array<string>{
-    let numberPlaceholder: {name: string, final: string} = {name:'NUMBER',final: 'N'};
-    let letterPlaceholder: {name: string, final: string} = {name:'LETTER',final: 'L'};
     let result: Array<string> =  [];
-    let firstRegexpInfo: {count: number, transformedString: string, placeholderName: string, placeholderFinalName: string} = this.getNumberRegExpInfo(userString, /d[{]\d+[,](\d+)[}]/, numberPlaceholder);
-    if(firstRegexpInfo.count===0){
-      firstRegexpInfo = this.getNumberRegExpInfo(userString, /w[{]\w+[,](\d+)[}]/, letterPlaceholder);
-    }
-    let firstRegexpInfo2: {count: number, transformedString: string, placeholderName: string, placeholderFinalName: string} = this.getNumberRegExpInfo(firstRegexpInfo.transformedString, /d[{]\d+[,](\d+)[}]/, numberPlaceholder);
-    if(firstRegexpInfo2.count===0){
-      firstRegexpInfo2 = this.getNumberRegExpInfo(firstRegexpInfo.transformedString, /w[{]\w+[,](\d+)[}]/, letterPlaceholder);
-    }
+    let firstRegexpInfo: {count: number, transformedString: string, placeholderName: string, placeholderFinalName: string} = this.getNumberRegExpInfo(userString);
+    let firstRegexpInfo2: {count: number, transformedString: string, placeholderName: string, placeholderFinalName: string} = this.getNumberRegExpInfo(firstRegexpInfo.transformedString);
     let placeholders = firstRegexpInfo2.transformedString;
     placeholders = this.replaceAll(placeholders,'[-]','-');
     placeholders = this.replaceAll(placeholders,'[\\]','\\');
@@ -91,23 +83,37 @@ export class RegExTranslatorService {
     }
     return result;
   }
-
-  getNumberRegExpInfo(userString: string, pureRegExp: RegExp, replace: {name: string, final: string}): {count: number, transformedString: string, placeholderName: string, placeholderFinalName: string} {
-    let regexpInfo: Array<string> = userString.match(pureRegExp);
+/*
+  comb(array){
+    let count = 1;
+    if(array.length){
+      var elements = array.shift();
+      count = elements.length;
+      elements.forEach(function(){
+        count *= comb(array);
+      });
+    }
+    return count;
+  }
+*/
+  getNumberRegExpInfo(userString: string): {count: number, transformedString: string, placeholderName: string, placeholderFinalName: string} {
+    let regexpInfo: Array<string> = userString.match(/[w|d][{]\d+[,](\d+)[}]/);
     if(regexpInfo){
-      userString = userString.replace('\\'+regexpInfo[0], replace.name);
+      let placeHolderName = regexpInfo[0].indexOf('w')!==-1 ? 'LETTER' : 'NUMBER';
+      let placeHolderNameFinal = placeHolderName === 'LETTER' ? 'L' : 'N';
+      userString = userString.replace('\\'+regexpInfo[0], placeHolderName);
       return {
         count: +regexpInfo[1],
         transformedString: userString,
-        placeholderName: replace.name,
-        placeholderFinalName: replace.final
+        placeholderName: placeHolderName,
+        placeholderFinalName: placeHolderNameFinal
       };
     }
     return {
       count: 0,
       transformedString: userString,
-      placeholderName: replace.name,
-      placeholderFinalName: replace.final
+      placeholderName: '',
+      placeholderFinalName: ''
     }
   }
 
