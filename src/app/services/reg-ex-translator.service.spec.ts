@@ -5,8 +5,8 @@ describe('RegExTranslatorService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    //const service: RegExTranslatorService = TestBed.get(RegExTranslatorService);
-    expect(true).toBeTruthy();
+    const service: RegExTranslatorService = new RegExTranslatorService();
+    expect(service).toBeTruthy();
   });
   it('should show 1x3 number-combinations', () => {
     const service: RegExTranslatorService = new RegExTranslatorService();
@@ -47,6 +47,7 @@ describe('RegExTranslatorService', () => {
   it('should show 3x3 number/letter-combinations', () => {
     const service: RegExTranslatorService = new RegExTranslatorService();
     let testRegexp: string = '\\d{1,3}[-]\\w{1,3}';
+    console.log(service.getHumanExpCombinations(testRegexp));
     expect(service.getHumanExpCombinations(testRegexp)).toEqual([
       'N-L',
       'N-LL',
@@ -57,6 +58,22 @@ describe('RegExTranslatorService', () => {
       'NNN-L',
       'NNN-LL',
       'NNN-LLL'
+    ]);
+  });
+  it('should show 3x3 letter/letter-combinations', () => {
+    const service: RegExTranslatorService = new RegExTranslatorService();
+    let testRegexp: string = '\\w{1,3}[-]\\w{1,3}';
+    console.log(service.getHumanExpCombinations(testRegexp));
+    expect(service.getHumanExpCombinations(testRegexp)).toEqual([
+      'L-L',
+      'L-LL',
+      'L-LLL',
+      'LL-L',
+      'LL-LL',
+      'LL-LLL',
+      'LLL-L',
+      'LLL-LL',
+      'LLL-LLL'
     ]);
   });
 });
