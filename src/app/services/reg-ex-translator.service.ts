@@ -62,26 +62,41 @@ export class RegExTranslatorService {
     return result;
   }
 
-  /*
-    todo
-   */
-  getHumExpCombinations(userString: string): Array<string>{
+  getHumanExpCombinations(userString: string): Array<string>{
     let result: Array<string> =  [];
     let number: Array<string> = userString.match(/d[{]\d+[,](\d+)[}]/);
     let letter: Array<string> = userString.match(/w[{]\d+[,](\w+)[}]/);
-    let placeholders = userString.replace(number[0],'number').replace(letter[0],'letter');
-    let maxNumber: number = +number[1];
-    let maxLetter: number = +letter[1];
+    let placeholders = userString;
+    console.log(number[0]);
+    if(number){
+      placeholders = this.replaceAll(placeholders,'\\'+number[0],'NUMBER');
+      console.log(placeholders);
+    }
+    if(letter){
+      placeholders = placeholders.replace(new RegExp(letter[0],'g'),'letter');
+    }
+    placeholders = this.replaceAll(placeholders,'[-]','-');
+    placeholders = this.replaceAll(placeholders,'[\\]','\\');
+    placeholders = this.replaceAll(placeholders,'[/]','/');
+    let maxNumber: number = number ? +number[1] : 1;
+    let maxLetter: number = letter ? +letter[1] : 1;
     for(let numberIndex=0; numberIndex < maxNumber; numberIndex++){
-      for(let letterIndex=0; letterIndex < maxLetter; letterIndex++){
+      for(let letterIndex=0; letterIndex < maxNumber; letterIndex++){
         result.push(
             placeholders
-                .replace('number',(new Array(numberIndex+1)).fill('N').join(''))
-                .replace('letter',(new Array(letterIndex+1)).fill('L').join(''))
+                .replace('NUMBER',(new Array(numberIndex+1)).fill('N').join(''))
+                .replace('NUMBER',(new Array(letterIndex+1)).fill('N').join(''))
         )
       }
     }
     return result;
+  }
+
+  replaceAll(str, search,replace):string{
+    if(str.indexOf(search)!==-1){
+      return this.replaceAll(str.replace(search,replace),search,replace);
+    }
+    return str;
   }
 
 }
