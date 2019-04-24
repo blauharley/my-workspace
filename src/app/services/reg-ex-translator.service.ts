@@ -63,36 +63,44 @@ export class RegExTranslatorService {
   }
 
   getHumanExpCombinations(userString: string): Array<string>{
+    let numberPlaceholderName: string = 'NUMBER';
     let result: Array<string> =  [];
-    let number: Array<string> = userString.match(/d[{]\d+[,](\d+)[}]/);
-    let letter: Array<string> = userString.match(/w[{]\d+[,](\w+)[}]/);
-    let placeholders = userString;
-    console.log(number[0]);
-    if(number){
-      placeholders = this.replaceAll(placeholders,'\\'+number[0],'NUMBER');
-      console.log(placeholders);
-    }
-    if(letter){
-      placeholders = placeholders.replace(new RegExp(letter[0],'g'),'letter');
-    }
+    let number: {count: number, transformedString: string} = this.getNumberRegExpInfo(userString, /d[{]\d+[,](\d+)[}]/, numberPlaceholderName);
+    let number2: {count: number, transformedString: string} = this.getNumberRegExpInfo(number.transformedString, /d[{]\d+[,](\d+)[}]/, numberPlaceholderName);
+    let placeholders = number2.transformedString;
     placeholders = this.replaceAll(placeholders,'[-]','-');
     placeholders = this.replaceAll(placeholders,'[\\]','\\');
     placeholders = this.replaceAll(placeholders,'[/]','/');
-    let maxNumber: number = number ? +number[1] : 1;
-    let maxLetter: number = letter ? +letter[1] : 1;
+    let maxNumber: number = number.count;
+    let maxNumber2: number = number2.count;
     for(let numberIndex=0; numberIndex < maxNumber; numberIndex++){
-      for(let letterIndex=0; letterIndex < maxNumber; letterIndex++){
+      for(let numberIndex2=0; numberIndex2 < maxNumber2; numberIndex2++){
         result.push(
             placeholders
-                .replace('NUMBER',(new Array(numberIndex+1)).fill('N').join(''))
-                .replace('NUMBER',(new Array(letterIndex+1)).fill('N').join(''))
+                .replace(numberPlaceholderName,(new Array(numberIndex+1)).fill('N').join(''))
+                .replace(numberPlaceholderName,(new Array(numberIndex2+1)).fill('N').join(''))
         )
       }
     }
     return result;
   }
 
-  replaceAll(str, search,replace):string{
+  getNumberRegExpInfo(userString: string, pureRegExp: RegExp, replace: string): {count: number, transformedString: string} {
+    let regexpInfo: Array<string> = userString.match(pureRegExp);
+    if(regexpInfo){
+      userString = userString.replace('\\'+regexpInfo[0],replace);
+      return {
+        count: +regexpInfo[1],
+        transformedString: userString
+      };
+    }
+    return {
+      count: 0,
+      transformedString: userString
+    }
+  }
+
+  replaceAll(str: string, search: string, replace: string):string{
     if(str.indexOf(search)!==-1){
       return this.replaceAll(str.replace(search,replace),search,replace);
     }
