@@ -16,7 +16,7 @@ export class RegExpSearchPipe implements PipeTransform {
     if(!searchTerm){
       return regexes;
     }
-    let humanReadableSearchTerm: string = this.service.translateToHumanExp(searchTerm);
+    let humanReadableSearchTerm: string = this.service.translateToNormalizedExp(searchTerm);
     return regexes.filter((regex: MyRegEx)=>{
       let comboFound = this.service.getHumanExpCombinations(regex.value.pure).filter( (combo) => {
         return combo.indexOf(humanReadableSearchTerm)===0;

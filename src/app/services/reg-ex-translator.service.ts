@@ -15,7 +15,7 @@ export class RegExTranslatorService {
 
   constructor() { }
 
-  translateToHumanExp(userString: string): string{
+  translateToNormalizedExp(userString: string): string{
       return userString.split('').map((sign)=>{
         if(/^[0-9]+$/.test(sign)){
           return 'N';

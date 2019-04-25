@@ -4,7 +4,7 @@ import {MyRegExValue} from '../dataobjects/MyRegEx';
 import {RegExTranslatorService} from '../services/reg-ex-translator.service';
 
 @Pipe({
-  name: 'highlighter'
+  name: 'regExpHighlighter'
 })
 export class HighlighterPipe implements PipeTransform {
 
@@ -25,7 +25,7 @@ export class HighlighterPipe implements PipeTransform {
     if(!term){
       return htmlContent;
     }
-    let humReadableTerm: string = this.service.translateToHumanExp(term);
+    let humReadableTerm: string = this.service.translateToNormalizedExp(term);
     let maschineTranslatedTerm: string = this.service.translateToMaschineExp(humReadableTerm);
     let comboFound = this.service.getHumanExpCombinations(maschineTranslatedTerm).filter( (combo) => {
       return combo === humReadableTerm;

@@ -23,7 +23,7 @@ export class ShopComponent implements OnInit {
   }
 
   translatedSearchTerm(searchTerm){
-    return this.regExpService.translateToHumanExp(searchTerm);
+    return this.regExpService.translateToNormalizedExp(searchTerm);
   }
 
   addRegExp(){
