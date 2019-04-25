@@ -21,7 +21,7 @@ export class RegExpSearchPipe implements PipeTransform {
     return regexes.filter((regex: MyRegEx)=>{
       let comboFound = this.service.getHumanExpCombinations(regex.value.pure).filter( (combo) => {
         console.log('combo: ',combo);
-        return combo.indexOf(humanReadableSearchTerm)!==-1;
+        return combo.indexOf(humanReadableSearchTerm)===0;
       });
       return comboFound.length;
     });
