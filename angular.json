@@ -147,6 +147,41 @@
           }
         }
       }
+    },
+    "useYourOwnRegEx": {
+      "root": "projects/use-your-own-reg-ex",
+      "sourceRoot": "projects/use-your-own-reg-ex/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/use-your-own-reg-ex/tsconfig.lib.json",
+            "project": "projects/use-your-own-reg-ex/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/use-your-own-reg-ex/src/test.ts",
+            "tsConfig": "projects/use-your-own-reg-ex/tsconfig.spec.json",
+            "karmaConfig": "projects/use-your-own-reg-ex/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/use-your-own-reg-ex/tsconfig.lib.json",
+              "projects/use-your-own-reg-ex/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "my-workspace"

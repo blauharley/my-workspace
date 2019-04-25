@@ -1,12 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {MyRegExValue} from '../dataobjects/MyRegEx';
 import {RegExTranslatorService} from '../services/reg-ex-translator.service';
 
 @Pipe({
   name: 'regExpHighlighter'
 })
-export class HighlighterPipe implements PipeTransform {
+export class RegExpHighlighter implements PipeTransform {
 
   constructor(private service: RegExTranslatorService=null, private sanitizer: DomSanitizer=null){
 
@@ -20,8 +19,7 @@ export class HighlighterPipe implements PipeTransform {
     return "</span>";
   }
 
-  transform(regexpValue: MyRegExValue, term?: any): any {
-    let htmlContent: string = regexpValue.pure;
+  transform(htmlContent: string, term?: any): any {
     if(!term){
       return htmlContent;
     }
@@ -32,8 +30,8 @@ export class HighlighterPipe implements PipeTransform {
     });
     if(comboFound.length){
       htmlContent =
-          this.getWrapperTagStart() + regexpValue.pure.slice(0, maschineTranslatedTerm.length) + this.getWrapperTagEnd() +
-          regexpValue.pure.slice(maschineTranslatedTerm.length)
+          this.getWrapperTagStart() + htmlContent.slice(0, maschineTranslatedTerm.length) + this.getWrapperTagEnd() +
+          htmlContent.slice(maschineTranslatedTerm.length)
     }
     if(this.sanitizer){
       return this.sanitizer.bypassSecurityTrustHtml(htmlContent);

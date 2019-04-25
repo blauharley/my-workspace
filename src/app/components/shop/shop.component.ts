@@ -17,22 +17,25 @@ export class ShopComponent implements OnInit {
       new MyRegEx('Subproduct-Search', {pure: '\\d{1,3}[-]\\d{1,3}[/]\\w{1,3}', searchable: 'NNN-NNN/LLL'}) // 123-456/a or 123-456/abc
   ];
 
-  constructor(private regExpService: RegExTranslatorService) { }
+  constructor() { }
 
-  ngOnInit() {
-  }
-
-  translatedSearchTerm(searchTerm){
-    return this.regExpService.translateToNormalizedExp(searchTerm);
-  }
+  ngOnInit() {}
 
   addRegExp(){
     this.addRegExModeOn = true;
   }
 
-  onCloseModal(e: any){
+  transformRegexes(regexes: Array<MyRegEx>): Array<string> {
+    return regexes.map((regex)=>{
+      console.log(regex);
+      return regex.value.pure;
+    });
+  }
+
+  handleNewRegEx(e: any){
     if(e.save) {
       this.regexes.push(e.data);
+      this.regexes = [].concat(this.regexes);
     }
     this.addRegExModeOn = false;
   }

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, LOCALE_ID } from '@angular/core';
+import {NgModule, LOCALE_ID, TrackByFunction} from '@angular/core';
 import {registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 
@@ -20,8 +20,8 @@ import { InfoComponent } from './components/modals/info/info.component';
 import { ClockComponent } from './components/clock/clock.component';
 import { ShopComponent } from './components/shop/shop.component';
 import { RegexComponent } from './components/modals/regex/regex.component';
-import { RegExpSearchPipe } from './pipes/reg-exp-search.pipe';
-import { HighlighterPipe } from './pipes/highlighter.pipe';
+import {UseYourOwnRegExModule} from '../../projects/use-your-own-reg-ex/src/lib/use-your-own-reg-ex.module';
+import { TransformMyRegExpIntoStringsPipe } from './pipes/transform-my-reg-exp-into-strings.pipe';
 
 @NgModule({
   declarations: [
@@ -36,8 +36,7 @@ import { HighlighterPipe } from './pipes/highlighter.pipe';
     ClockComponent,
     ShopComponent,
     RegexComponent,
-    RegExpSearchPipe,
-    HighlighterPipe
+    TransformMyRegExpIntoStringsPipe
   ],
   imports: [
     BrowserModule,
@@ -46,6 +45,7 @@ import { HighlighterPipe } from './pipes/highlighter.pipe';
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    UseYourOwnRegExModule,
     LocalStorageModule.forRoot({
       prefix: 'my-workspace',
       storageType: 'localStorage'

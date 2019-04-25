@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "use-your-own-reg-ex": [
+        "dist/use-your-own-reg-ex"
+      ],
+      "use-your-own-reg-ex/*": [
+        "dist/use-your-own-reg-ex/*"
+      ]
+    }
   }
 }
