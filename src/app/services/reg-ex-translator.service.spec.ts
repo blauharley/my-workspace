@@ -11,7 +11,6 @@ describe('RegExTranslatorService', () => {
   it('should show 1X-NUMBER-1X-NUMBER COMBO', () => {
     const service: RegExTranslatorService = new RegExTranslatorService();
     let testRegexp: string = '\\d{1,1}[-]\\d{1,1}';
-    console.log(service.getHumanExpCombinations(testRegexp));
     expect(service.getHumanExpCombinations(testRegexp)).toEqual([
       'N-N'
     ]);
@@ -19,7 +18,6 @@ describe('RegExTranslatorService', () => {
   it('should show 1X-NUMBER-3X-NUMBER COMBO', () => {
     const service: RegExTranslatorService = new RegExTranslatorService();
     let testRegexp: string = '\\d{1,1}[-]\\d{1,3}';
-    console.log(service.getHumanExpCombinations(testRegexp));
     expect(service.getHumanExpCombinations(testRegexp)).toEqual([
         'N-N',
         'N-NN',
@@ -29,7 +27,6 @@ describe('RegExTranslatorService', () => {
   it('should show 3X-LETTER-1X-NUMBER COMBO', () => {
     const service: RegExTranslatorService = new RegExTranslatorService();
     let testRegexp: string = '\\w{1,3}[-]\\d{1,1}';
-    console.log(service.getHumanExpCombinations(testRegexp));
     expect(service.getHumanExpCombinations(testRegexp)).toEqual([
       'L-N',
       'LL-N',
@@ -66,7 +63,6 @@ describe('RegExTranslatorService', () => {
   it('should show 3X-LETTER-3X-LETTER COMBO', () => {
     const service: RegExTranslatorService = new RegExTranslatorService();
     let testRegexp: string = '\\d{1,3}[-]\\w{1,3}';
-    console.log(service.getHumanExpCombinations(testRegexp));
     expect(service.getHumanExpCombinations(testRegexp)).toEqual([
       'N-L',
       'N-LL',
@@ -82,7 +78,6 @@ describe('RegExTranslatorService', () => {
   it('should show 3X-LETTER-3X-LETTER COMBO', () => {
     const service: RegExTranslatorService = new RegExTranslatorService();
     let testRegexp: string = '\\w{1,3}[-]\\w{1,3}';
-    console.log(service.getHumanExpCombinations(testRegexp));
     expect(service.getHumanExpCombinations(testRegexp)).toEqual([
       'L-L',
       'L-LL',
@@ -98,7 +93,6 @@ describe('RegExTranslatorService', () => {
   it('should show 3X-NUMBER-3X-NUMBER-3X-NUMBER COMBO', () => {
     const service: RegExTranslatorService = new RegExTranslatorService();
     let testRegexp: string = '\\d{1,3}[-]\\d{1,3}[-]\\d{1,3}';
-    console.log(service.getHumanExpCombinations(testRegexp));
     expect(service.getHumanExpCombinations(testRegexp)).toEqual([
       'N-N-N',
       'N-N-NN',
@@ -132,7 +126,6 @@ describe('RegExTranslatorService', () => {
   it('should show 3X-LETTER-3X-LETTER/3X-LETTER COMBO', () => {
     const service: RegExTranslatorService = new RegExTranslatorService();
     let testRegexp: string = '\\w{1,3}[-]\\w{1,3}[/]\\w{1,3}';
-    console.log(service.getHumanExpCombinations(testRegexp));
     expect(service.getHumanExpCombinations(testRegexp)).toEqual([
       'L-L/L',
       'L-L/LL',

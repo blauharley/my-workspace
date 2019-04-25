@@ -21,7 +21,6 @@ export class RegExTranslatorService {
           return 'N';
         }
         else if(/^[a-zA-Z]+$/.test(sign)){
-          console.log(sign);
           return "L";
         } else if(/^-$/.test(sign)){
           return '-';

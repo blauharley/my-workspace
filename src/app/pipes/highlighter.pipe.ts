@@ -27,9 +27,7 @@ export class HighlighterPipe implements PipeTransform {
     }
     let humReadableTerm: string = this.service.translateToHumanExp(term);
     let maschineTranslatedTerm: string = this.service.translateToMaschineExp(humReadableTerm);
-    console.log(humReadableTerm);
     let comboFound = this.service.getHumanExpCombinations(maschineTranslatedTerm).filter( (combo) => {
-      console.log(combo);
       return combo === humReadableTerm;
     });
     if(comboFound.length){
