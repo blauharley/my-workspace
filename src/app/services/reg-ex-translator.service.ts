@@ -64,57 +64,94 @@ export class RegExTranslatorService {
 
   getHumanExpCombinations(userString: string): Array<string>{
     let result: Array<string> =  [];
-    let firstRegexpInfo: {count: number, transformedString: string, placeholderName: string, placeholderFinalName: string} = this.getNumberRegExpInfo(userString);
-    let firstRegexpInfo2: {count: number, transformedString: string, placeholderName: string, placeholderFinalName: string} = this.getNumberRegExpInfo(firstRegexpInfo.transformedString);
-    let placeholders = firstRegexpInfo2.transformedString;
-    placeholders = this.replaceAll(placeholders,'[-]','-');
-    placeholders = this.replaceAll(placeholders,'[\\]','\\');
-    placeholders = this.replaceAll(placeholders,'[/]','/');
-    let maxNumber: number = firstRegexpInfo.count;
-    let maxNumber2: number = firstRegexpInfo2.count;
-    for(let numberIndex=0; numberIndex < maxNumber; numberIndex++){
-      for(let numberIndex2=0; numberIndex2 < maxNumber2; numberIndex2++){
-        result.push(
-            placeholders
-                .replace(firstRegexpInfo.placeholderName,(new Array(numberIndex+1)).fill(firstRegexpInfo.placeholderFinalName).join(''))
-                .replace(firstRegexpInfo2.placeholderName,(new Array(numberIndex2+1)).fill(firstRegexpInfo2.placeholderFinalName).join(''))
-        )
+    let placeholder = this.getPlaceholderUserString(userString);
+    let recursion = (userString: string, iterationInfos: Array<{currentIteration: number, count: number, foundExp: string, transformedString: string, placeholderName: string, placeholderFinalName: string}> = null) => {
+      let regexpInfo: {currentIteration: number, count: number, foundExp: string, transformedString: string, placeholderName: string, placeholderFinalName: string} = this.getNumberRegExpInfo(userString);
+      if(regexpInfo.count===0){
+        let first = iterationInfos[0];
+        let second = iterationInfos[1];
+        let third = iterationInfos[2];
+        if(first && !second && !third){
+          for(let index=0; index < first.count; index++){
+            let tmpPlaceholder: string = placeholder;
+            tmpPlaceholder = tmpPlaceholder
+                .replace(first.placeholderName,(new Array(index+1)).fill(first.placeholderFinalName).join(''));
+            result.push(tmpPlaceholder);
+          }
+        }
+        if(first && second && !third){
+          for(let index=0; index < first.count; index++){
+            for(let index2=0; index2 < second.count; index2++){
+              let tmpPlaceholder: string = placeholder;
+              tmpPlaceholder = tmpPlaceholder
+                  .replace(first.placeholderName,(new Array(index+1)).fill(first.placeholderFinalName).join(''))
+                  .replace(second.placeholderName,(new Array(index2+1)).fill(second.placeholderFinalName).join(''));
+              result.push(tmpPlaceholder);
+            }
+          }
+        }
+        else if(first && second && third){
+          for(let index=0; index < first.count; index++){
+            for(let index2=0; index2 < second.count; index2++){
+              for(let index3=0; index3 < third.count; index3++) {
+                let tmpPlaceholder: string = placeholder;
+                tmpPlaceholder = tmpPlaceholder
+                    .replace(first.placeholderName, (new Array(index + 1)).fill(first.placeholderFinalName).join(''))
+                    .replace(second.placeholderName, (new Array(index2 + 1)).fill(second.placeholderFinalName).join(''))
+                    .replace(third.placeholderName, (new Array(index3 + 1)).fill(third.placeholderFinalName).join(''));
+                result.push(tmpPlaceholder);
+              }
+            }
+          }
+        }
       }
-    }
+      else{
+        iterationInfos.push(regexpInfo);
+        recursion(userString.slice(regexpInfo.foundExp.length+1), iterationInfos);
+      }
+    };
+    userString = this.replaceAll(userString,'[-]','');
+    userString = this.replaceAll(userString,'[\\]','');
+    userString = this.replaceAll(userString,'[/]','');
+    recursion(userString, []);
     return result;
   }
-/*
-  comb(array){
-    let count = 1;
-    if(array.length){
-      var elements = array.shift();
-      count = elements.length;
-      elements.forEach(function(){
-        count *= comb(array);
-      });
-    }
-    return count;
-  }
-*/
-  getNumberRegExpInfo(userString: string): {count: number, transformedString: string, placeholderName: string, placeholderFinalName: string} {
+
+  getNumberRegExpInfo(userString: string): {currentIteration: number, count: number, foundExp: string, transformedString: string, placeholderName: string, placeholderFinalName: string} {
     let regexpInfo: Array<string> = userString.match(/[w|d][{]\d+[,](\d+)[}]/);
     if(regexpInfo){
       let placeHolderName = regexpInfo[0].indexOf('w')!==-1 ? 'LETTER' : 'NUMBER';
       let placeHolderNameFinal = placeHolderName === 'LETTER' ? 'L' : 'N';
       userString = userString.replace('\\'+regexpInfo[0], placeHolderName);
       return {
+        currentIteration: 0,
         count: +regexpInfo[1],
+        foundExp: regexpInfo[0],
         transformedString: userString,
         placeholderName: placeHolderName,
         placeholderFinalName: placeHolderNameFinal
       };
     }
     return {
+      currentIteration: 0,
       count: 0,
+      foundExp: '',
       transformedString: userString,
       placeholderName: '',
       placeholderFinalName: ''
     }
+  }
+
+  getPlaceholderUserString(userString: string){
+    let placeholder = userString;
+    userString.match(/[w|d][{]\d+[,](\d+)[}]/g).forEach(function(foundExp){
+      let isLetter = foundExp.indexOf("w") !== -1;
+      placeholder = placeholder.replace('\\'+foundExp,isLetter ? 'LETTER' : 'NUMBER');
+    });
+    placeholder = this.replaceAll(placeholder,'[-]','-');
+    placeholder = this.replaceAll(placeholder,'[\\]','\\');
+    placeholder = this.replaceAll(placeholder,'[/]','/');
+    return placeholder;
   }
 
   replaceAll(str: string, search: string, replace: string):string{
