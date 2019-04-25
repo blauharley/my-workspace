@@ -21,6 +21,7 @@ export class RegExTranslatorService {
           return 'N';
         }
         else if(/^[a-zA-Z]+$/.test(sign)){
+          console.log(sign);
           return "L";
         } else if(/^-$/.test(sign)){
           return '-';
@@ -117,7 +118,7 @@ export class RegExTranslatorService {
     return result;
   }
 
-  getNumberRegExpInfo(userString: string): {currentIteration: number, count: number, foundExp: string, transformedString: string, placeholderName: string, placeholderFinalName: string} {
+  private getNumberRegExpInfo(userString: string): {currentIteration: number, count: number, foundExp: string, transformedString: string, placeholderName: string, placeholderFinalName: string} {
     let regexpInfo: Array<string> = userString.match(/[w|d][{]\d+[,](\d+)[}]/);
     if(regexpInfo){
       let placeHolderName = regexpInfo[0].indexOf('w')!==-1 ? 'LETTER' : 'NUMBER';
@@ -142,9 +143,10 @@ export class RegExTranslatorService {
     }
   }
 
-  getPlaceholderUserString(userString: string){
+  private getPlaceholderUserString(userString: string){
     let placeholder = userString;
-    userString.match(/[w|d][{]\d+[,](\d+)[}]/g).forEach(function(foundExp){
+    let foundExps = userString.match(/[w|d][{]\d+[,](\d+)[}]/g);
+    (foundExps ? foundExps : []).forEach(function(foundExp){
       let isLetter = foundExp.indexOf("w") !== -1;
       placeholder = placeholder.replace('\\'+foundExp,isLetter ? 'LETTER' : 'NUMBER');
     });
@@ -154,7 +156,7 @@ export class RegExTranslatorService {
     return placeholder;
   }
 
-  replaceAll(str: string, search: string, replace: string):string{
+  private replaceAll(str: string, search: string, replace: string):string{
     if(str.indexOf(search)!==-1){
       return this.replaceAll(str.replace(search,replace),search,replace);
     }

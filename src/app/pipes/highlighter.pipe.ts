@@ -25,9 +25,14 @@ export class HighlighterPipe implements PipeTransform {
     if(!term){
       return htmlContent;
     }
-    let maschineTranslatedTerm: string = this.service.translateToMaschineExp(term);
-    let searchMaschineTranslatedTerm = maschineTranslatedTerm.slice(0, maschineTranslatedTerm.length-2);
-    if(regexpValue.pure.indexOf(searchMaschineTranslatedTerm) !== -1){
+    let humReadableTerm: string = this.service.translateToHumanExp(term);
+    let maschineTranslatedTerm: string = this.service.translateToMaschineExp(humReadableTerm);
+    console.log(humReadableTerm);
+    let comboFound = this.service.getHumanExpCombinations(maschineTranslatedTerm).filter( (combo) => {
+      console.log(combo);
+      return combo === humReadableTerm;
+    });
+    if(comboFound.length){
       htmlContent =
           this.getWrapperTagStart() + regexpValue.pure.slice(0, maschineTranslatedTerm.length) + this.getWrapperTagEnd() +
           regexpValue.pure.slice(maschineTranslatedTerm.length)
