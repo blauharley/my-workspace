@@ -7,9 +7,9 @@ import {RegExTranslatorService} from '../services/reg-ex-translator.service';
 })
 export class RegExpHighlighter implements PipeTransform {
 
-  constructor(private service: RegExTranslatorService=null, private sanitizer: DomSanitizer=null){
+  service: RegExTranslatorService = new RegExTranslatorService();
 
-  }
+  constructor(private sanitizer: DomSanitizer=null){}
 
   getWrapperTagStart(){
     return "<span style=\"background:#F60;display:inline-block;color:#FFF;\">";

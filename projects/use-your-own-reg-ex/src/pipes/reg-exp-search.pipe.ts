@@ -6,9 +6,9 @@ import {RegExTranslatorService} from '../services/reg-ex-translator.service';
 })
 export class RegExpSearchPipe implements PipeTransform {
 
-  constructor(private service: RegExTranslatorService=null){
+  service: RegExTranslatorService = new RegExTranslatorService();
 
-  }
+  constructor(){}
 
   transform(regexes: any[], args: { searchTerm: string, transformFunction?: Function}): any {
     let transformedArray = args.transformFunction ? args.transformFunction(regexes) : regexes;

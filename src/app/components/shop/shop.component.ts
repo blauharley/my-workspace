@@ -27,7 +27,6 @@ export class ShopComponent implements OnInit {
 
   transformRegexes(regexes: Array<MyRegEx>): Array<string> {
     return regexes.map((regex)=>{
-      console.log(regex);
       return regex.value.pure;
     });
   }
