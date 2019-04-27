@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {isString} from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -143,16 +144,21 @@ export class RegExTranslatorService {
   }
 
   private getPlaceholderUserString(userString: string){
-    let placeholder = userString;
-    let foundExps = userString.match(/[w|d][{]\d+[,](\d+)[}]/g);
-    (foundExps ? foundExps : []).forEach(function(foundExp){
-      let isLetter = foundExp.indexOf("w") !== -1;
-      placeholder = placeholder.replace('\\'+foundExp,isLetter ? 'LETTER' : 'NUMBER');
-    });
-    placeholder = this.replaceAll(placeholder,'[-]','-');
-    placeholder = this.replaceAll(placeholder,'[\\]','\\');
-    placeholder = this.replaceAll(placeholder,'[/]','/');
-    return placeholder;
+    if(isString(userString)) {
+      let placeholder = userString;
+      let foundExps = userString.match(/[w|d][{]\d+[,](\d+)[}]/g);
+      (foundExps ? foundExps : []).forEach(function(foundExp) {
+        let isLetter = foundExp.indexOf("w") !== -1;
+        placeholder = placeholder.replace('\\' + foundExp, isLetter ? 'LETTER' : 'NUMBER');
+      });
+      placeholder = this.replaceAll(placeholder, '[-]', '-');
+      placeholder = this.replaceAll(placeholder, '[\\]', '\\');
+      placeholder = this.replaceAll(placeholder, '[/]', '/');
+      return placeholder;
+    }
+    else{
+      throw new Error('RegExTranslatorService-ERROR: argument is not of type string');
+    }
   }
 
   private replaceAll(str: string, search: string, replace: string):string{

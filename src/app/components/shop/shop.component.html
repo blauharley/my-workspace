@@ -12,9 +12,9 @@
     <div class="col-12 text-center h2" i18n="@@dashboard.title">Your RegEx-List</div>
   </div>
   <div class="row row-animation bg-light"
-       *ngFor="let regex of regexes | regExpSearch: {searchTerm: naviSearchText, transformFunction: transformRegexes }; let _i = index">
+       *ngFor="let regex of regexes | regExpSearch: {searchTerm: naviSearchText, transformFunction: transformRegexes }; let _i = index;">
     <div class="col-6">
-      {{regexes[_i].name}}
+      {{getItem(_i).name}}
     </div>
     <div class="col-6" [innerHTML]="regex|regExpHighlighter:naviSearchText"></div>
   </div>
