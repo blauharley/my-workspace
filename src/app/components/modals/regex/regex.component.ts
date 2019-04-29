@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MyRegEx} from '../../../dataobjects/MyRegEx';
-import {RegExTranslatorService} from '../../../services/reg-ex-translator.service';
+import {RegExTranslatorService} from '../../../../../projects/use-your-own-reg-ex/src/services/reg-ex-translator.service';
 declare let $;
 
 /*
-Letters => L
-Numbers => N
+Letters => A
+Numbers => 1
 Slash => /
 Backslash => \
 Comma => -

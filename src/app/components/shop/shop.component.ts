@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MyRegEx} from '../../dataobjects/MyRegEx';
 import {RegExpSearchPipe} from '../../../../projects/use-your-own-reg-ex/src/pipes/reg-exp-search.pipe';
+import {RegExpTranslations} from '../../../../projects/use-your-own-reg-ex/src/enums/reg-exp-translations.class';
 
 @Component({
   selector: 'app-shop',
@@ -14,11 +15,15 @@ export class ShopComponent implements OnInit {
   addModalId: string = 'addRegEx';
   naviSearchText: string = '';
   regexes: MyRegEx[] = [
-      new MyRegEx('Headproduct-Search', {pure: '\\d{1,3}[-]\\d{1,3}', searchable: 'NNN-NNN'}), // 123-456 or 678-000
-      new MyRegEx('Subproduct-Search', {pure: '\\d{1,3}[-]\\d{1,3}[/]\\w{1,3}', searchable: 'NNN-NNN/LLL'}) // 123-456/a or 123-456/abc
+      new MyRegEx('Headproduct-Search', {pure: '\\d{1,3}[-]\\d{1,3}', searchable: '111-111'}), // 123-456 or 678-000
+      new MyRegEx('Subproduct-Search', {pure: '\\d{1,3}[-]\\d{1,3}[/]\\w{1,3}', searchable: '111-111/AAA'}) // 123-456/a or 123-456/abc
   ];
 
-  constructor(private regexSearchPipe: RegExpSearchPipe) { }
+  constructor(private regexSearchPipe: RegExpSearchPipe) {
+    // overwrite letter and number flags to use our own
+    RegExpTranslations.LETTER = "A";
+    RegExpTranslations.NUMBER = "1";
+  }
 
   ngOnInit() {}
 

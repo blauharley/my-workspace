@@ -1,34 +1,38 @@
 import { Injectable } from '@angular/core';
 import {isString} from 'util';
+import {RegExpTranslations} from '../enums/reg-exp-translations.class';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegExTranslatorService {
 
-  regExpTranslateTable: object = {
-    'L' : '\\w{min,max}',
-    'N' : '\\d{min,max}',
-    '/' : '[/]',
-    '\\' : '[\\]',
-    '-' : '[-]'
-  };
+  placeholderNameLetter: string = 'LETTER';
+  placeholderNameNumber: string = 'NUMBER';
 
-  constructor() { }
+  regExpTranslateTable: object = {};
+
+  constructor() {
+    this.regExpTranslateTable[RegExpTranslations.LETTER] = '\\w{min,max}';
+    this.regExpTranslateTable[RegExpTranslations.NUMBER] = '\\d{min,max}';
+    this.regExpTranslateTable[RegExpTranslations.SLASH] = '[/]';
+    this.regExpTranslateTable[RegExpTranslations.BACKSLASH] = '[\\]';
+    this.regExpTranslateTable[RegExpTranslations.DASH] = '[-]';
+  }
 
   translateToNormalizedExp(userString: string): string{
       return userString.split('').map((sign)=>{
         if(/^[0-9]+$/.test(sign)){
-          return 'N';
+          return RegExpTranslations.NUMBER;
         }
         else if(/^[a-zA-Z]+$/.test(sign)){
-          return "L";
+          return RegExpTranslations.LETTER;
         } else if(/^-$/.test(sign)){
-          return '-';
+          return RegExpTranslations.DASH;
         } else if(/^\/$/.test(sign)){
-          return '/';
+          return RegExpTranslations.SLASH;
         } else if(/^\\$/.test(sign)){
-          return '\\';
+          return RegExpTranslations.BACKSLASH;
         }
       }).join('');
   }
@@ -111,9 +115,9 @@ export class RegExTranslatorService {
         recursion(userString.slice(regexpInfo.foundExp.length+1), iterationInfos);
       }
     };
-    userString = this.replaceAll(userString,'[-]','');
-    userString = this.replaceAll(userString,'[\\]','');
-    userString = this.replaceAll(userString,'[/]','');
+    userString = this.replaceAll(userString,this.regExpTranslateTable[RegExpTranslations.DASH],'');
+    userString = this.replaceAll(userString,this.regExpTranslateTable[RegExpTranslations.BACKSLASH],'');
+    userString = this.replaceAll(userString,this.regExpTranslateTable[RegExpTranslations.SLASH],'');
     recursion(userString, []);
     return result;
   }
@@ -121,8 +125,8 @@ export class RegExTranslatorService {
   private getNumberRegExpInfo(userString: string): {currentIteration: number, count: number, foundExp: string, transformedString: string, placeholderName: string, placeholderFinalName: string} {
     let regexpInfo: Array<string> = userString.match(/[w|d][{]\d+[,](\d+)[}]/);
     if(regexpInfo){
-      let placeHolderName = regexpInfo[0].indexOf('w')!==-1 ? 'LETTER' : 'NUMBER';
-      let placeHolderNameFinal = placeHolderName === 'LETTER' ? 'L' : 'N';
+      let placeHolderName = regexpInfo[0].indexOf('w')!==-1 ? this.placeholderNameLetter : this.placeholderNameNumber;
+      let placeHolderNameFinal = placeHolderName === this.placeholderNameLetter ? RegExpTranslations.LETTER : RegExpTranslations.NUMBER;
       userString = userString.replace('\\'+regexpInfo[0], placeHolderName);
       return {
         currentIteration: 0,
@@ -147,13 +151,13 @@ export class RegExTranslatorService {
     if(isString(userString)) {
       let placeholder = userString;
       let foundExps = userString.match(/[w|d][{]\d+[,](\d+)[}]/g);
-      (foundExps ? foundExps : []).forEach(function(foundExp) {
+      (foundExps ? foundExps : []).forEach((foundExp) => {
         let isLetter = foundExp.indexOf("w") !== -1;
-        placeholder = placeholder.replace('\\' + foundExp, isLetter ? 'LETTER' : 'NUMBER');
+        placeholder = placeholder.replace('\\' + foundExp, isLetter ? this.placeholderNameLetter : this.placeholderNameNumber);
       });
-      placeholder = this.replaceAll(placeholder, '[-]', '-');
-      placeholder = this.replaceAll(placeholder, '[\\]', '\\');
-      placeholder = this.replaceAll(placeholder, '[/]', '/');
+      placeholder = this.replaceAll(placeholder, this.regExpTranslateTable[RegExpTranslations.DASH], '-');
+      placeholder = this.replaceAll(placeholder, this.regExpTranslateTable[RegExpTranslations.BACKSLASH], '\\');
+      placeholder = this.replaceAll(placeholder, this.regExpTranslateTable[RegExpTranslations.SLASH], '/');
       return placeholder;
     }
     else{
