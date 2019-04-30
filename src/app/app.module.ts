@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {NgModule, LOCALE_ID, TrackByFunction} from '@angular/core';
-import {registerLocaleData} from '@angular/common';
+import {CommonModule, registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +22,9 @@ import { ShopComponent } from './components/shop/shop.component';
 import { RegexComponent } from './components/modals/regex/regex.component';
 import {UseYourOwnRegExModule} from '../../projects/use-your-own-reg-ex/src/lib/use-your-own-reg-ex.module';
 import { TransformMyRegExpIntoStringsPipe } from './pipes/transform-my-reg-exp-into-strings.pipe';
+import { ShopcategoriyComponent } from './components/shopcategoriy/shopcategoriy.component';
+import { ShoptypeComponent } from './components/shoptype/shoptype.component';
+import { ShopthemeComponent } from './components/shoptheme/shoptheme.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { TransformMyRegExpIntoStringsPipe } from './pipes/transform-my-reg-exp-i
     ClockComponent,
     ShopComponent,
     RegexComponent,
-    TransformMyRegExpIntoStringsPipe
+    TransformMyRegExpIntoStringsPipe,
+    ShopcategoriyComponent,
+    ShoptypeComponent,
+    ShopthemeComponent
   ],
   imports: [
     BrowserModule,

@@ -4,11 +4,26 @@ import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {LoginComponent} from './components/login/login.component';
 import {AuthGuard} from './guards/auth.guard';
 import {ShopComponent} from './components/shop/shop.component';
+import {ShopcategoriyComponent} from './components/shopcategoriy/shopcategoriy.component';
+import {ShoptypeComponent} from './components/shoptype/shoptype.component';
+import {ShopthemeComponent} from './components/shoptheme/shoptheme.component';
 
 const routes: Routes = [
   { path: 'auth', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'shop', component: ShopComponent, canActivate: [AuthGuard] },
+  { path: 'category',
+    component: ShopcategoriyComponent,
+    children: [
+      { path:"theme",
+        component: ShopthemeComponent,
+        outlet: 'myOutlet',
+        children: [
+          { path:"type/:id", component: ShoptypeComponent, outlet: 'myOutlet' }
+        ]
+      }
+    ]
+  },
   { path: '**', redirectTo: 'dashboard' }
 ];
 

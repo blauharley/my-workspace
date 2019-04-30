@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Location} from '@angular/common';
 import {AppComponent} from '../../app.component';
+import {AuthenticationServiceService} from '../../services/authentication-service.service';
+import {User} from '../../dataobjects/user';
 
 @Component({
   selector: 'app-navi',
@@ -12,9 +14,10 @@ export class NaviComponent implements OnInit {
   @Output() searchChange: EventEmitter<string> = new EventEmitter<string>();
 
   activePath: string;
+  currentUser: User;
 
-  constructor(private location: Location, private appComponent: AppComponent) {
-
+  constructor(private location: Location, private appComponent: AppComponent, private authenticationService: AuthenticationServiceService) {
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
   ngOnInit() {
