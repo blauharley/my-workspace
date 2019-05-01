@@ -1,15 +1,15 @@
 <div class="modal fade"
      [attr.id]="name"
-     tabindex="-1" role="dialog"
-     [attr.aria-label]="name"
-     aria-hidden="true">
+     tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add new RegExp</h5>
-        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <a [routerLink]="['/shop']">
+          <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </a>
       </div>
       <div class="modal-body">
         <div>
@@ -38,13 +38,12 @@
                [(ngModel)]="currentRegEx.value.searchable"
                pattern="^[LN\/]+$"
                minlength="5"/>
-        <div [ngStyle]="{display:currentRegEx.value.searchable && currentRegEx.value.searchable.invalid?'block':'none'}" class="invalid-feedback">
-          <div *ngIf="currentRegEx.value.searchable && currentRegEx.value.searchable.invalid">Pattern does allowed</div>
-        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-        <button type="button" class="btn btn-primary" (click)="closeModal(true)">Save changes</button>
+        <a [routerLink]="['/shop']">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+          <button type="button" class="btn btn-primary" (click)="closeModal(true)">Save changes</button>
+        </a>
       </div>
     </div>
   </div>

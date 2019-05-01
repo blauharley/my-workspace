@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 export class ClockComponent implements OnInit, OnDestroy {
 
   private timeInterval: any=null;
-  private time: any = null;
+  public time: any = null;
 
   constructor() {}
 

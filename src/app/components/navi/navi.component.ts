@@ -16,7 +16,7 @@ export class NaviComponent implements OnInit {
   activePath: string;
   currentUser: User;
 
-  constructor(private location: Location, private appComponent: AppComponent, private authenticationService: AuthenticationServiceService) {
+  constructor(private location: Location, public appComponent: AppComponent, private authenticationService: AuthenticationServiceService) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 

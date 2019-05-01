@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {MyRegEx} from '../../dataobjects/MyRegEx';
 import {RegExpSearchPipe} from '../../../../projects/use-your-own-reg-ex/src/pipes/reg-exp-search.pipe';
 import {RegExpTranslations} from '../../../../projects/use-your-own-reg-ex/src/enums/reg-exp-translations.class';
+import {ActivatedRoute} from '@angular/router';
+import {MessengerService} from '../../services/messenger.service';
 
 @Component({
   selector: 'app-shop',
@@ -19,10 +21,14 @@ export class ShopComponent implements OnInit {
       new MyRegEx('Subproduct-Search', {pure: '\\d{1,3}[-]\\d{1,3}[/]\\w{1,3}', searchable: '111-111/AAA'}) // 123-456/a or 123-456/abc
   ];
 
-  constructor(private regexSearchPipe: RegExpSearchPipe) {
+  constructor(private regexSearchPipe: RegExpSearchPipe, private messenger: MessengerService) {
     // overwrite letter and number flags to use our own
     RegExpTranslations.LETTER = "A";
     RegExpTranslations.NUMBER = "1";
+
+    messenger.getMessageObserable().subscribe((data) => {
+      this.handleNewRegEx(data);
+    });
   }
 
   ngOnInit() {}
@@ -37,9 +43,9 @@ export class ShopComponent implements OnInit {
     });
   }
 
-  handleNewRegEx(e: any){
-    if(e.save) {
-      this.regexes.push(e.data);
+  handleNewRegEx(data: any){
+    if(data.save) {
+      this.regexes.push(data.data);
       this.regexes = [].concat(this.regexes);
     }
     this.addRegExModeOn = false;

@@ -62,7 +62,7 @@
               ]
             },
             "dev": {
-              "aot": true,
+              "aot": false,
               "i18nFile": "src/messages.xlf",
               "i18nFormat": "xlf",
               "i18nLocale": "de"
