@@ -22,10 +22,11 @@
     </div>
   </div>-->
   <div class="row row-animation bg-light"
+       *ngFor="let todo of getCurrentToDoGroup().items | toDoSearch: naviSearchText | toDoStatusPrio"
        [ngClass]="{shake: (deleteModeOn && todo.getMoveState() === 'in'), 'row-start-animation': !moveInAnimationFinish }"
-       *ngFor="let todo of todos | toDoSearch: naviSearchText | toDoStatusPrio"
        [@moveRowIn]="todo.getMoveState()"
        [@moveRowOut]="todo.getMoveState()">
+
     <div class="col-1" [ngStyle]="{'background-color': todo.getStatusColor()}"></div>
     <div class="col-3 pt-2 pb-2">
       <input class="form-control"
@@ -40,6 +41,12 @@
          (mouseup)="onMouseUp($event, todo)"
          (mouseout)="onMouseOut($event)"></div>
   </div>
+  <mat-paginator [@fade]="moveInAnimationFinish?'in':'out'"
+                 [length]="toDoCount"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="[5,10,25]"
+                 (page)="handlePageChange($event)">
+  </mat-paginator>
 </div>
 
 <!-- Modal -->

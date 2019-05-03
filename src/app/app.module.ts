@@ -25,6 +25,7 @@ import { TransformMyRegExpIntoStringsPipe } from './pipes/transform-my-reg-exp-i
 import { ShopcategoriyComponent } from './components/shopcategoriy/shopcategoriy.component';
 import { ShoptypeComponent } from './components/shoptype/shoptype.component';
 import { ShopthemeComponent } from './components/shoptheme/shoptheme.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { ShopthemeComponent } from './components/shoptheme/shoptheme.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     UseYourOwnRegExModule,
+    MatPaginatorModule,
     LocalStorageModule.forRoot({
       prefix: 'my-workspace',
       storageType: 'localStorage'

@@ -5,13 +5,13 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active" [ngClass]="{'active':activePath==='dashboard'}">
+      <li class="nav-item" [ngClass]="{'active':activePath==='dashboard'}">
         <a class="nav-link" routerLink="/dashboard">Dashboard <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item active" [ngClass]="{'active':activePath==='shop'}">
+      <li class="nav-item" [ngClass]="{'active':activePath==='shop'}">
         <a class="nav-link" routerLink="/shop">Shop <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link"
            [routerLink]="['/category',{outlets:{'myOutlet':['theme', {outlets:{'myOutlet':['type', 27]}}]}}]">Go To Child-Route ID: 27<span class="sr-only">(current)</span></a>
       </li>
