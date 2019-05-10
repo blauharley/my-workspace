@@ -26,6 +26,11 @@ import { ShopcategoriyComponent } from './components/shopcategoriy/shopcategoriy
 import { ShoptypeComponent } from './components/shoptype/shoptype.component';
 import { ShopthemeComponent } from './components/shoptheme/shoptheme.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {EffectsModule} from '@ngrx/effects';
+import {ToDoEffectService} from './services/to-do-effect.service';
+import {StoreModule} from '@ngrx/store';
+import { TodotransformPipe } from './pipes/todotransform.pipe';
+import { FormblockComponent } from './components/shoptype/formblock/formblock.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +48,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     TransformMyRegExpIntoStringsPipe,
     ShopcategoriyComponent,
     ShoptypeComponent,
-    ShopthemeComponent
+    ShopthemeComponent,
+    TodotransformPipe,
+    FormblockComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +60,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     UseYourOwnRegExModule,
+    StoreModule.forRoot({}),
     MatPaginatorModule,
+    EffectsModule.forRoot([ToDoEffectService]),
     LocalStorageModule.forRoot({
       prefix: 'my-workspace',
       storageType: 'localStorage'

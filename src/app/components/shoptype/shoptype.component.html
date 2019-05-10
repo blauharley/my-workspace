@@ -4,17 +4,25 @@
 
 <div *ngIf="formControl; then trueBlock; else falseBlock"></div>
 <ng-template #trueBlock>
-  <div>
-    <input [formControl]="myFormControl">
-  </div>
+  TrueBlock
 </ng-template>
 <ng-template #falseBlock>
-  <div [fromGroup]="myForm">
-    <input [formControlName]="formControlName">
-  </div>
+  FalseBlock
 </ng-template>
 
+<br/>
+
+<app-formblock [condition]="true">
+  <div isTrue>
+    Yes, is true
+  </div>
+  <div isFalse>
+    No, is false
+  </div>
+</app-formblock>
 <button (click)="switchTemplate()">Switch Template Current Template {{thenBlock === primaryBlock ? 'Primary' : 'Secondary'}}</button>
+
+<br/>
 
 <div *ngIf="show2; then thenBlock; else elseBlock">this is ignored</div>
 <ng-template #primaryBlock>Primary text to show</ng-template>

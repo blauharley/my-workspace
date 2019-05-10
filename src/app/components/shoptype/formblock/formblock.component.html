@@ -1,0 +1,7 @@
+<div *ngIf="condition; then trueBlock; else falseBlock"></div>
+<ng-template #trueBlock>
+  <ng-content select="[isTrue]"></ng-content>
+</ng-template>
+<ng-template #falseBlock>
+  <ng-content select="[isFalse]"></ng-content>
+</ng-template>
