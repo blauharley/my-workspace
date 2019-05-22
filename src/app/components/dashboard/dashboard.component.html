@@ -22,7 +22,7 @@
     </div>
   </div>-->
   <div class="row row-animation bg-light"
-       *ngFor="let todo of getCurrentToDoGroup().items | toDoSearch: naviSearchText | toDoStatusPrio"
+       *ngFor="let todo of getCurrentToDoGroup().items | toDoSearch: naviSearchText | toDoStatusPrio; trackBy: trackByToDoGroups"
        [ngClass]="{shake: (deleteModeOn && todo.getMoveState() === 'in'), 'row-start-animation': !moveInAnimationFinish }"
        [@moveRowIn]="todo.getMoveState()"
        [@moveRowOut]="todo.getMoveState()">

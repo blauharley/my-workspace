@@ -22,15 +22,11 @@ import { ShopComponent } from './components/shop/shop.component';
 import { RegexComponent } from './components/modals/regex/regex.component';
 import {UseYourOwnRegExModule} from '../../projects/use-your-own-reg-ex/src/lib/use-your-own-reg-ex.module';
 import { TransformMyRegExpIntoStringsPipe } from './pipes/transform-my-reg-exp-into-strings.pipe';
-import { ShopcategoriyComponent } from './components/shopcategoriy/shopcategoriy.component';
-import { ShoptypeComponent } from './components/shoptype/shoptype.component';
-import { ShopthemeComponent } from './components/shoptheme/shoptheme.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {EffectsModule} from '@ngrx/effects';
 import {ToDoEffectService} from './services/to-do-effect.service';
 import {StoreModule} from '@ngrx/store';
 import { TodotransformPipe } from './pipes/todotransform.pipe';
-import { FormblockComponent } from './components/shoptype/formblock/formblock.component';
 
 @NgModule({
   declarations: [
@@ -46,11 +42,7 @@ import { FormblockComponent } from './components/shoptype/formblock/formblock.co
     ShopComponent,
     RegexComponent,
     TransformMyRegExpIntoStringsPipe,
-    ShopcategoriyComponent,
-    ShoptypeComponent,
-    ShopthemeComponent,
-    TodotransformPipe,
-    FormblockComponent
+    TodotransformPipe
   ],
   imports: [
     BrowserModule,

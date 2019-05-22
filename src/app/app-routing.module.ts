@@ -4,9 +4,6 @@ import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {LoginComponent} from './components/login/login.component';
 import {AuthGuard} from './guards/auth.guard';
 import {ShopComponent} from './components/shop/shop.component';
-import {ShopcategoriyComponent} from './components/shopcategoriy/shopcategoriy.component';
-import {ShoptypeComponent} from './components/shoptype/shoptype.component';
-import {ShopthemeComponent} from './components/shoptheme/shoptheme.component';
 import {RegexComponent} from './components/modals/regex/regex.component';
 
 const routes: Routes = [
@@ -19,18 +16,7 @@ const routes: Routes = [
         { path: 'regExModal/:name', component: RegexComponent, outlet: 'regexpModal' },
     ]
   },
-  { path: 'category',
-    component: ShopcategoriyComponent,
-    children: [
-      { path:"theme",
-        component: ShopthemeComponent,
-        outlet: 'myOutlet',
-        children: [
-          { path:"type/:id", component: ShoptypeComponent, outlet: 'myOutlet' }
-        ]
-      }
-    ]
-  },
+  { path: 'category', loadChildren: './modules/shop-module.module#ShopModuleModule' },
   { path: '**', redirectTo: 'dashboard' }
 ];
 

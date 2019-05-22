@@ -89,21 +89,20 @@ export class DashboardComponent implements OnInit {
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-    this.http.get(this.REST_URLS['ALL']).subscribe((data: Array<object>) => {
-      this.toDoCount = data.length;
-      let group = new ToDoGroup();
-      data.forEach((todoData, index) => {
-        todoData['date'] = new Date(todoData['date']*1000);
-        group.items.push(new ToDo(todoData));
-        if((index+1)%this.pageSize===0 || (index+1) === data.length ){
-          this.todogroups.push(group);
-          group = new ToDoGroup();
-        }
-        setTimeout(() => {
-          this.startSetupAnimation(100);
-        }, 1000);
-      });
+  async ngOnInit() {
+    let data: any = await this.http.get(this.REST_URLS['ALL']).toPromise();
+    this.toDoCount = data.length;
+    let group = new ToDoGroup();
+    data.forEach((todoData, index) => {
+      todoData['date'] = new Date(todoData['date']*1000);
+      group.items.push(new ToDo(todoData));
+      if((index+1)%this.pageSize===0 || (index+1) === data.length ){
+        this.todogroups.push(group);
+        group = new ToDoGroup();
+      }
+      setTimeout(() => {
+        this.startSetupAnimation(100);
+      }, 1000);
     });
   }
 
@@ -252,6 +251,10 @@ export class DashboardComponent implements OnInit {
       }
     }
     this.todogroups = todogroups;
+  }
+
+  trackByToDoGroups(index: number, todo: ToDo){
+    return todo.getID();
   }
 
   private startSetupAnimation(delay: number=0){
