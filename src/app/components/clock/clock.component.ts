@@ -1,48 +1,39 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {interval, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {AlertService} from '../../services/alert-service.service';
+import {AlertMockService} from '../../services/alert-mock-service.service';
+import {environment} from '../../../environments/environment';
 
-function OnDestroyDecorator(decArgs: any): ClassDecorator {
-  return (target: Function) => {
+const heroServiceFactory = () => {
+  return environment.production ? new AlertService() : new AlertMockService();
+};
 
-    const ngOnDestroy: Function = target.prototype.ngOnDestroy;
-    target.prototype.ngOnDestroy = ( ...args ) => {
-
-      console.log('ngOnDestroy:', target.name, decArgs);
-
-      if ( ngOnDestroy ) {
-        ngOnDestroy.apply(target, args);
-      }
+const alertServiceProvider =
+    { provide: AlertService,
+      useFactory: heroServiceFactory,
+      deps: []
     };
-  };
-}
 
 @Component({
   selector: 'app-clock',
   templateUrl: './clock.component.html',
   styleUrls: ['./clock.component.scss'],
-})
-@OnDestroyDecorator({
-  arg: 'argument'
+  providers: [alertServiceProvider]
 })
 export class ClockComponent implements OnInit, OnDestroy {
 
-  private timeInterval: any=null;
-  public time: any = null;
+  timeInterval: Observable<Date>=null;
 
-  constructor() {}
+  constructor(service: AlertService) {
+    service.alert();
+    this.timeInterval = interval(1000).pipe(map(() => new Date()));
+  }
 
   ngOnInit() {
-    new Observable<Date>(observer => {
-      this.timeInterval = setInterval(() => {
-        observer.next(new Date());
-      }, 1000);
-    }).subscribe((date)=>{
-      this.time = date;
-    });
+
   }
 
-  ngOnDestroy(){
-    clearInterval(this.timeInterval);
-  }
+  ngOnDestroy(){}
 
 }
