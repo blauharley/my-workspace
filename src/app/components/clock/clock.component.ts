@@ -5,13 +5,13 @@ import {AlertService} from '../../services/alert-service.service';
 import {AlertMockService} from '../../services/alert-mock-service.service';
 import {environment} from '../../../environments/environment';
 
-const heroServiceFactory = () => {
+const alertServiceFactory = () => {
   return environment.production ? new AlertService() : new AlertMockService();
 };
 
 const alertServiceProvider =
     { provide: AlertService,
-      useFactory: heroServiceFactory,
+      useFactory: alertServiceFactory,
       deps: []
     };
 
